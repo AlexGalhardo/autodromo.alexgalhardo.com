@@ -6,7 +6,7 @@ export default function Schedules() {
         <>
             <Navbar />
             <Sidebar />
-			<section className="p-4 sm:ml-64 sm:p-5 mt-10">
+            <section className="p-4 sm:ml-64 sm:p-5 mt-10">
                 <div className=" px-4 lg:px-12 mt-10">
                     <div className="bg-white dark:bg-gray-800 relative sm:rounded-lg">
                         <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -162,7 +162,7 @@ export default function Schedules() {
                                         <th scope="col" className="px-4 py-3">
                                             ROAD ID
                                         </th>
-										<th scope="col" className="px-4 py-3">
+                                        <th scope="col" className="px-4 py-3">
                                             KART ID
                                         </th>
                                         <th scope="col" className="px-4 py-3">
@@ -183,7 +183,7 @@ export default function Schedules() {
                                         </th>
                                         <td className="px-4 py-3">aleexgvieira@gmail.com</td>
                                         <td className="px-4 py-3">65b68955e0d74179ef5deec4</td>
-										<td className="px-4 py-3">65b68955e0d74179ef5deec4</td>
+                                        <td className="px-4 py-3">65b68955e0d74179ef5deec4</td>
                                         <td className="px-4 py-3">27/01/2024 14:50</td>
                                         <td className="px-4 py-3">27/01/2024 15:50</td>
                                         <td className="px-4 py-3 flex items-center justify-end">
@@ -193,7 +193,7 @@ export default function Schedules() {
                                                 className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                                                 type="button"
                                             >
-                                                See More
+                                                Actions
                                             </button>
                                             <div
                                                 id="apple-imac-27-dropdown"

@@ -23,10 +23,11 @@ export default function LoginForm() {
     }
 
     return (
+			<>
         <form className="max-w-sm mx-auto mt-10">
             <a href="/">
                 <h2 className="mb-8 text-3xl font-bold text-center bg-gradient-to-r from-green-400 to-blue-500 text-transparent bg-clip-text dark:text-white">
-                    Autodromo
+                    Galhardo Autodromo
                 </h2>
             </a>
             <div className="mb-5">
@@ -55,10 +56,18 @@ export default function LoginForm() {
             </div>
             <button
                 type="submit"
-                className="border-green-500 border-2 hover:bg-green-800 hover:border-green-400 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-lg w-full px-5 py-2.5 text-center"
+                className="border-green-500 border-2 hover:bg-green-800 hover:text-white hover:border-green-400 focus:outline-none font-medium rounded-lg text-lg w-full px-5 py-2.5 text-center"
             >
-                Login
+                LOGIN
             </button>
         </form>
+
+        <div className="p-6 text-center mt-5">
+            <span>© 2024 Copyright </span>
+            <a className="font-semibold text-green-600" href="https://alexgalhardo.com">
+                AlexGalhardo
+            </a>
+        </div>
+			</>
     );
 }

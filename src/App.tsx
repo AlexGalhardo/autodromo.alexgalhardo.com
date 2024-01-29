@@ -17,12 +17,12 @@ export default function App() {
             <GlobalStateProvider>
                 <Routes>
                     <Route path="/" element={<Races />} />
-					<Route path="/users" element={<Users />} />
-					<Route path="/maintenances" element={<Maintenances />} />
-					<Route path="/schedules" element={<Schedules />} />
-					<Route path="/roads" element={<Roads />} />
-					<Route path="/karts" element={<Karts />} />
-					<Route path="/notifications" element={<Notifications />} />
+                    <Route path="/users" element={<Users />} />
+                    <Route path="/maintenances" element={<Maintenances />} />
+                    <Route path="/schedules" element={<Schedules />} />
+                    <Route path="/roads" element={<Roads />} />
+                    <Route path="/karts" element={<Karts />} />
+                    <Route path="/notifications" element={<Notifications />} />
                     <Route path="/login" element={<LoginForm />} />
                     <Route path="*" element={<NotFound />} />
                 </Routes>

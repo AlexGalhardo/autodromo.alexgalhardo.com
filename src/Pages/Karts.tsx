@@ -6,7 +6,7 @@ export default function Karts() {
         <>
             <Navbar />
             <Sidebar />
-			<section className="p-4 sm:ml-64 sm:p-5 mt-10">
+            <section className="p-4 sm:ml-64 sm:p-5 mt-10">
                 <div className=" px-4 lg:px-12 mt-10">
                     <div className="bg-white dark:bg-gray-800 relative sm:rounded-lg">
                         <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
@@ -153,7 +153,7 @@ export default function Karts() {
                             <table className="w-full text-left dark:text-gray-400">
                                 <thead className="text-lsx text-green uppercase dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
-										<th scope="col" className="px-4 py-3">
+                                        <th scope="col" className="px-4 py-3">
                                             STATUS
                                         </th>
                                         <th scope="col" className="px-4 py-3">
@@ -162,23 +162,23 @@ export default function Karts() {
                                         <th scope="col" className="px-4 py-3">
                                             NAME
                                         </th>
-										<th scope="col" className="px-4 py-3">
+                                        <th scope="col" className="px-4 py-3">
                                             BRAND
                                         </th>
-										<th scope="col" className="px-4 py-3">
+                                        <th scope="col" className="px-4 py-3">
                                             MODEL
                                         </th>
-										<th scope="col" className="px-4 py-3">
+                                        <th scope="col" className="px-4 py-3">
                                             POWER
                                         </th>
-										<th scope="col" className="px-4 py-3">
+                                        <th scope="col" className="px-4 py-3">
                                             TIRE BRAND
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-										<td className="px-4 py-3">AVAILABLE</td>
+                                        <td className="px-4 py-3">AVAILABLE</td>
                                         <th
                                             scope="row"
                                             className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -186,9 +186,9 @@ export default function Karts() {
                                             65b68955e0d74179ef5deec4
                                         </th>
                                         <td className="px-4 py-3">Kart One</td>
-										<td className="px-4 py-3">Ford</td>
-										<td className="px-4 py-3">HB20</td>
-										<td className="px-4 py-3">200</td>
+                                        <td className="px-4 py-3">Ford</td>
+                                        <td className="px-4 py-3">HB20</td>
+                                        <td className="px-4 py-3">200</td>
                                         <td className="px-4 py-3">Sutraan</td>
                                         <td className="px-4 py-3 flex items-center justify-end">
                                             <button
@@ -197,7 +197,7 @@ export default function Karts() {
                                                 className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                                                 type="button"
                                             >
-                                                See More
+                                                Actions
                                             </button>
                                             <div
                                                 id="apple-imac-27-dropdown"
@@ -235,8 +235,8 @@ export default function Karts() {
                                             </div>
                                         </td>
                                     </tr>
-									<tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-										<td className="px-4 py-3">IN MAINTENANCE</td>
+                                    <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
+                                        <td className="px-4 py-3">IN MAINTENANCE</td>
                                         <th
                                             scope="row"
                                             className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -244,9 +244,9 @@ export default function Karts() {
                                             65b68955e0d74179ef5deec4
                                         </th>
                                         <td className="px-4 py-3">Kart One</td>
-										<td className="px-4 py-3">Ford</td>
-										<td className="px-4 py-3">HB20</td>
-										<td className="px-4 py-3">200</td>
+                                        <td className="px-4 py-3">Ford</td>
+                                        <td className="px-4 py-3">HB20</td>
+                                        <td className="px-4 py-3">200</td>
                                         <td className="px-4 py-3">Sutraan</td>
                                         <td className="px-4 py-3 flex items-center justify-end">
                                             <button
@@ -255,7 +255,7 @@ export default function Karts() {
                                                 className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                                                 type="button"
                                             >
-                                                See More
+                                                Actions
                                             </button>
                                             <div
                                                 id="apple-imac-27-dropdown"
@@ -293,8 +293,8 @@ export default function Karts() {
                                             </div>
                                         </td>
                                     </tr>
-									<tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-										<td className="px-4 py-3">LEASED</td>
+                                    <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
+                                        <td className="px-4 py-3">LEASED</td>
                                         <th
                                             scope="row"
                                             className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
@@ -302,9 +302,9 @@ export default function Karts() {
                                             65b68955e0d74179ef5deec4
                                         </th>
                                         <td className="px-4 py-3">Kart One</td>
-										<td className="px-4 py-3">Ford</td>
-										<td className="px-4 py-3">HB20</td>
-										<td className="px-4 py-3">200</td>
+                                        <td className="px-4 py-3">Ford</td>
+                                        <td className="px-4 py-3">HB20</td>
+                                        <td className="px-4 py-3">200</td>
                                         <td className="px-4 py-3">Sutraan</td>
                                         <td className="px-4 py-3 flex items-center justify-end">
                                             <button
@@ -313,7 +313,7 @@ export default function Karts() {
                                                 className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
                                                 type="button"
                                             >
-                                                See More
+                                                Actions
                                             </button>
                                             <div
                                                 id="apple-imac-27-dropdown"
