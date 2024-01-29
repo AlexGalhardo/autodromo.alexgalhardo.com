@@ -4,7 +4,6 @@
 
 ## Introduction
 
-
 ## Tools and Services Used
 
 * [Linux Mint XFCE 21.04](https://linuxmint.com/)
@@ -21,10 +20,10 @@
   * [React Hooks: useContext, useContext, useMemo, useReducer, useCallback](https://react.dev/reference/react)
 
 ## Features
+
 * CRUD
 * Authentication & Authorization
 * Notifications Events using Publisher/Subscriber Pattern
-
 
 ## Development Setup Local
 

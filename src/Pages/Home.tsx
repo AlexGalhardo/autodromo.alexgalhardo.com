@@ -5,9 +5,9 @@ import Races from "../Components/Races";
 export default function Home() {
     return (
         <>
-			<Navbar />
-			<Sidebar />
-			<Races />
+            <Navbar />
+            <Sidebar />
+            <Races />
         </>
     );
 }

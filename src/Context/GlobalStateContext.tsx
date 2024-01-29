@@ -79,7 +79,7 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
             password: data.password,
             jwt_token: data.jwt_token,
             created_at: data.created_at,
-            updated_at: data.updated_at
+            updated_at: data.updated_at,
         });
     }
 
