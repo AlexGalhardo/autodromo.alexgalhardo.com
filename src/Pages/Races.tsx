@@ -1,18 +1,11 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useGlobalState } from "../Context/GlobalStateContext";
+import Sidebar from "../Components/Sidebar";
+import Navbar from "../Components/Navbar";
 
 export default function Races() {
-    const { user, userLogout } = useGlobalState();
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    function handleLogout() {
-        userLogout();
-        navigate("/login");
-    }
-
-    return (
+	return (
         <>
+			<Navbar />
+            <Sidebar />
             <section className="p-4 sm:ml-64 sm:p-5 mt-10">
                 <div className=" px-4 lg:px-12 mt-10">
                     <div className="bg-white dark:bg-gray-800 relative sm:rounded-lg">

@@ -1,27 +1,17 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useGlobalState } from "../Context/GlobalStateContext";
+import Sidebar from "../Components/Sidebar";
+import Navbar from "../Components/Navbar";
 
-export default function Races() {
-    const { user, userLogout } = useGlobalState();
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    function handleLogout() {
-        userLogout();
-        navigate("/login");
-    }
-
+export default function Maintenances() {
     return (
         <>
-            <section className="p-4 sm:ml-64 sm:p-5 mt-10">
+            <Navbar />
+            <Sidebar />
+			<section className="p-4 sm:ml-64 sm:p-5 mt-10">
                 <div className=" px-4 lg:px-12 mt-10">
                     <div className="bg-white dark:bg-gray-800 relative sm:rounded-lg">
                         <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                             <div className="w-full md:w-1/2">
                                 <form className="flex items-center">
-                                    <label htmlFor="simple-search" className="sr-only">
-                                        Search race id...
-                                    </label>
                                     <div className="relative w-full">
                                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg
@@ -42,7 +32,7 @@ export default function Races() {
                                             type="text"
                                             id="simple-search"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="Search Race ID"
+                                            placeholder="Search Maintenance ID"
                                             required
                                         />
                                     </div>
@@ -66,7 +56,7 @@ export default function Races() {
                                             d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                                         />
                                     </svg>
-                                    Add Race
+                                    Add Maintenance
                                 </button>
 
                                 <div className="flex items-center space-x-3 w-full md:w-auto">
@@ -140,20 +130,6 @@ export default function Races() {
                                                     FINISHED
                                                 </label>
                                             </li>
-                                            <li className="flex items-center">
-                                                <input
-                                                    id="razor"
-                                                    type="checkbox"
-                                                    value=""
-                                                    className="w-4 h-4 bg-gray-100 border-gray-300 rounded text-primary-600 focus:ring-primary-500 dark:focus:ring-primary-600 dark:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                                                />
-                                                <label
-                                                    htmlFor="razor"
-                                                    className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
-                                                >
-                                                    ABORTED
-                                                </label>
-                                            </li>
                                         </ul>
                                     </div>
                                 </div>
@@ -163,14 +139,20 @@ export default function Races() {
                             <table className="w-full text-left dark:text-gray-400">
                                 <thead className="text-lsx text-green uppercase dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
-                                        <th scope="col" className="px-4 py-3">
-                                            RACE ID
-                                        </th>
-                                        <th scope="col" className="px-4 py-3">
-                                            CREATED BY
-                                        </th>
-                                        <th scope="col" className="px-4 py-3">
+										<th scope="col" className="px-4 py-3">
                                             STATUS
+                                        </th>
+                                        <th scope="col" className="px-4 py-3">
+                                            MAINTENANCE ID
+                                        </th>
+                                        <th scope="col" className="px-4 py-3">
+                                            KART ID
+                                        </th>
+										<th scope="col" className="px-4 py-3">
+                                            KART NAME
+                                        </th>
+                                        <th scope="col" className="px-4 py-3">
+                                            REASON
                                         </th>
                                         <th scope="col" className="px-4 py-3">
                                             STARTS AT
@@ -182,14 +164,16 @@ export default function Races() {
                                 </thead>
                                 <tbody>
                                     <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
+										<td className="px-4 py-3"><span className="font-bold text-lg">CREATED</span></td>
                                         <th
                                             scope="row"
                                             className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                         >
                                             65b68955e0d74179ef5deec4
                                         </th>
-                                        <td className="px-4 py-3">aleexgvieira@gmail.com</td>
-                                        <td className="px-4 py-3">CREATED</td>
+                                        <td className="px-4 py-3">65b68955e0d74179ef5deec5</td>
+                                        <td className="px-4 py-3">Kart Two</td>
+										<td className="px-4 py-3">Quebrou o pneu</td>
                                         <td className="px-4 py-3">27/01/2024 14:50</td>
                                         <td className="px-4 py-3">27/01/2024 15:50</td>
                                         <td className="px-4 py-3 flex items-center justify-end">
@@ -208,118 +192,6 @@ export default function Races() {
                                                 <ul
                                                     className="py-1 text-sm text-gray-700 dark:text-gray-200"
                                                     aria-labelledby="apple-imac-27-dropdown-button"
-                                                >
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Show
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Edit
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div className="py-1">
-                                                    <a
-                                                        href="#"
-                                                        className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                        <th
-                                            scope="row"
-                                            className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                            65b68955e0d74179ef5deec4
-                                        </th>
-                                        <td className="px-4 py-3">aleexgvieira@gmail.com</td>
-                                        <td className="px-4 py-3">CREATED</td>
-                                        <td className="px-4 py-3">27/01/2024 14:50</td>
-                                        <td className="px-4 py-3">27/01/2024 15:50</td>
-                                        <td className="px-4 py-3 flex items-center justify-end">
-                                            <button
-                                                id="apple-imac-27-dropdown-button"
-                                                data-dropdown-toggle="apple-imac-28-dropdown"
-                                                className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                                                type="button"
-                                            >
-                                                See More
-                                            </button>
-                                            <div
-                                                id="apple-imac-28-dropdown"
-                                                className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                            >
-                                                <ul
-                                                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="apple-imac-28-dropdown-button"
-                                                >
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Show
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Edit
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div className="py-1">
-                                                    <a
-                                                        href="#"
-                                                        className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                        <th
-                                            scope="row"
-                                            className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                            65b68955e0d74179ef5deec4
-                                        </th>
-                                        <td className="px-4 py-3">aleexgvieira@gmail.com</td>
-                                        <td className="px-4 py-3">CREATED</td>
-                                        <td className="px-4 py-3">27/01/2024 14:50</td>
-                                        <td className="px-4 py-3">27/01/2024 15:50</td>
-                                        <td className="px-4 py-3 flex items-center justify-end">
-                                            <button
-                                                id="apple-imac-27-dropdown-button"
-                                                data-dropdown-toggle="apple-imac-29-dropdown"
-                                                className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                                                type="button"
-                                            >
-                                                See More
-                                            </button>
-                                            <div
-                                                id="apple-imac-29-dropdown"
-                                                className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                            >
-                                                <ul
-                                                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="apple-imac-29-dropdown-button"
                                                 >
                                                     <li>
                                                         <a

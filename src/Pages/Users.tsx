@@ -1,27 +1,17 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useGlobalState } from "../Context/GlobalStateContext";
+import Sidebar from "../Components/Sidebar";
+import Navbar from "../Components/Navbar";
 
-export default function Races() {
-    const { user, userLogout } = useGlobalState();
-    const navigate = useNavigate();
-    const location = useLocation();
-
-    function handleLogout() {
-        userLogout();
-        navigate("/login");
-    }
-
+export default function Users() {
     return (
         <>
-            <section className="p-4 sm:ml-64 sm:p-5 mt-10">
+            <Navbar />
+            <Sidebar />
+			<section className="p-4 sm:ml-64 sm:p-5 mt-10">
                 <div className=" px-4 lg:px-12 mt-10">
                     <div className="bg-white dark:bg-gray-800 relative sm:rounded-lg">
                         <div className="flex flex-col md:flex-row items-center justify-between space-y-3 md:space-y-0 md:space-x-4 p-4">
                             <div className="w-full md:w-1/2">
                                 <form className="flex items-center">
-                                    <label htmlFor="simple-search" className="sr-only">
-                                        Search race id...
-                                    </label>
                                     <div className="relative w-full">
                                         <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                                             <svg
@@ -42,7 +32,7 @@ export default function Races() {
                                             type="text"
                                             id="simple-search"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                            placeholder="Search Race ID"
+                                            placeholder="Search User ID"
                                             required
                                         />
                                     </div>
@@ -66,7 +56,7 @@ export default function Races() {
                                             d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z"
                                         />
                                     </svg>
-                                    Add Race
+                                    Add User
                                 </button>
 
                                 <div className="flex items-center space-x-3 w-full md:w-auto">
@@ -89,7 +79,7 @@ export default function Races() {
                                                 clipRule="evenodd"
                                             />
                                         </svg>
-                                        Filter Status
+                                        Filter Role
                                         <svg
                                             className="-mr-1 ml-1.5 w-5 h-5"
                                             fill="currentColor"
@@ -123,7 +113,7 @@ export default function Races() {
                                                     htmlFor="apple"
                                                     className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
                                                 >
-                                                    CREATED
+                                                    MANAGER
                                                 </label>
                                             </li>
                                             <li className="flex items-center">
@@ -137,7 +127,7 @@ export default function Races() {
                                                     htmlFor="fitbit"
                                                     className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
                                                 >
-                                                    FINISHED
+                                                    AFFILIATE
                                                 </label>
                                             </li>
                                             <li className="flex items-center">
@@ -151,7 +141,7 @@ export default function Races() {
                                                     htmlFor="razor"
                                                     className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
                                                 >
-                                                    ABORTED
+                                                    COMUM
                                                 </label>
                                             </li>
                                         </ul>
@@ -164,13 +154,13 @@ export default function Races() {
                                 <thead className="text-lsx text-green uppercase dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" className="px-4 py-3">
-                                            RACE ID
+                                            USER ID
                                         </th>
                                         <th scope="col" className="px-4 py-3">
-                                            CREATED BY
+                                            EMAIL
                                         </th>
                                         <th scope="col" className="px-4 py-3">
-                                            STATUS
+                                            ROLE
                                         </th>
                                         <th scope="col" className="px-4 py-3">
                                             STARTS AT
@@ -189,7 +179,7 @@ export default function Races() {
                                             65b68955e0d74179ef5deec4
                                         </th>
                                         <td className="px-4 py-3">aleexgvieira@gmail.com</td>
-                                        <td className="px-4 py-3">CREATED</td>
+                                        <td className="px-4 py-3">COMUM</td>
                                         <td className="px-4 py-3">27/01/2024 14:50</td>
                                         <td className="px-4 py-3">27/01/2024 15:50</td>
                                         <td className="px-4 py-3 flex items-center justify-end">
@@ -244,8 +234,8 @@ export default function Races() {
                                         >
                                             65b68955e0d74179ef5deec4
                                         </th>
-                                        <td className="px-4 py-3">aleexgvieira@gmail.com</td>
-                                        <td className="px-4 py-3">CREATED</td>
+                                        <td className="px-4 py-3">galhardo@gmail.com</td>
+                                        <td className="px-4 py-3">AFFILIATE</td>
                                         <td className="px-4 py-3">27/01/2024 14:50</td>
                                         <td className="px-4 py-3">27/01/2024 15:50</td>
                                         <td className="px-4 py-3 flex items-center justify-end">

@@ -22,8 +22,10 @@ export default function Sidebar() {
                     <ul className="space-y-2 font-medium">
                         <li>
                             <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white bg-gray-300 dark:hover:bg-gray-700 group"
+                                href="/"
+								className={`flex items-center p-2 rounded-lg group ${
+									location.pathname === "/" ? "bg-gray-400" : undefined
+								}`}
                             >
                                 <span className="flex-1 ms-3 whitespace-nowrap">Races</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
@@ -33,8 +35,10 @@ export default function Sidebar() {
                         </li>
                         <li>
                             <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                href="/users"
+                                className={`flex items-center p-2 rounded-lg group ${
+									location.pathname === "/users" ? "bg-gray-400" : undefined
+								}`}
                             >
                                 <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
@@ -44,8 +48,10 @@ export default function Sidebar() {
                         </li>
                         <li>
                             <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                href="/maintenances"
+                                className={`flex items-center p-2 rounded-lg group ${
+									location.pathname === "/maintenances" ? "bg-gray-400" : undefined
+								}`}
                             >
                                 <span className="flex-1 ms-3 whitespace-nowrap">Maintenances</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
@@ -55,8 +61,10 @@ export default function Sidebar() {
                         </li>
                         <li>
                             <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                href="/schedules"
+                                className={`flex items-center p-2 rounded-lg group ${
+									location.pathname === "/schedules" ? "bg-gray-400" : undefined
+								}`}
                             >
                                 <span className="flex-1 ms-3 whitespace-nowrap">Schedules</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
@@ -66,8 +74,10 @@ export default function Sidebar() {
                         </li>
                         <li>
                             <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                href="/roads"
+                                className={`flex items-center p-2 rounded-lg group ${
+									location.pathname === "/roads" ? "bg-gray-400" : undefined
+								}`}
                             >
                                 <span className="flex-1 ms-3 whitespace-nowrap">Roads</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
@@ -77,12 +87,28 @@ export default function Sidebar() {
                         </li>
                         <li>
                             <a
-                                href="#"
-                                className="flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"
+                                href="/karts"
+                                className={`flex items-center p-2 rounded-lg group ${
+									location.pathname === "/karts" ? "bg-gray-400" : undefined
+								}`}
                             >
                                 <span className="flex-1 ms-3 whitespace-nowrap">Karts</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     23
+                                </span>
+                            </a>
+                        </li>
+						<hr/>
+						<li>
+                            <a
+                                href="/notifications"
+                                className={`flex items-center p-2 rounded-lg group ${
+									location.pathname === "/notifications" ? "bg-gray-400" : undefined
+								}`}
+                            >
+                                <span className="flex-1 ms-3 whitespace-nowrap">Notifications</span>
+                                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                    192
                                 </span>
                             </a>
                         </li>
