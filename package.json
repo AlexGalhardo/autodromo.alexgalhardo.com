@@ -1,0 +1,44 @@
+{
+	"name": "autodromo.alexgalhardo.com",
+	"version": "1.0.0",
+	"type": "module",
+	"scripts": {
+		"start": "npm run build && npm run preview",
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview",
+		"format": "prettier --write \"src/**/*.tsx\" \"src/**/*.ts\" && npm run format:markdown",
+		"format:markdown": "remark . --output",
+		"prepare": "husky install"
+	},
+	"dependencies": {
+		"bootstrap-icons": "^1.11.3",
+		"clipboard": "^2.0.11",
+		"react": "^18.2.0",
+		"react-dom": "^18.2.0",
+		"react-paginate": "^8.2.0",
+		"react-router-dom": "^6.21.3",
+		"react-toastify": "^10.0.4"
+	},
+	"devDependencies": {
+		"@types/react": "^18.2.48",
+		"@types/react-dom": "^18.2.18",
+		"@types/string-similarity": "^4.0.2",
+		"@typescript-eslint/eslint-plugin": "^6.20.0",
+		"@typescript-eslint/parser": "^6.20.0",
+		"@vitejs/plugin-react": "^4.2.1",
+		"autoprefixer": "^10.4.17",
+		"husky": "^9.0.7",
+		"postcss": "^8.4.33",
+		"prettier": "^3.2.4",
+		"remark-cli": "^12.0.0",
+		"remark-toc": "^9.0.0",
+		"typescript": "^5.3.3",
+		"vite": "^5.0.12"
+	},
+	"remarkConfig": {
+		"settings": {
+			"bullet": "*"
+		}
+	}
+}
