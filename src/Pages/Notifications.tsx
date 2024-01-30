@@ -4,8 +4,7 @@ import { useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
 
 export default function Notifications() {
-
-	const { login } = useGlobalState();
+    const { login } = useGlobalState();
 
     if (login === false) {
         return <Navigate to="/login" />;

@@ -18,8 +18,8 @@ export default function App() {
             <GlobalStateProvider>
                 <Routes>
                     <Route path="/" element={<Races />} />
-					<Route path="/races" element={<Races />} />
-					<Route path="/races/history" element={<RacesHistory />} />
+                    <Route path="/races" element={<Races />} />
+                    <Route path="/races/history" element={<RacesHistory />} />
                     <Route path="/users" element={<Users />} />
                     <Route path="/maintenances" element={<Maintenances />} />
                     <Route path="/schedules" element={<Schedules />} />

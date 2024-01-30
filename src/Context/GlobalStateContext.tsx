@@ -4,19 +4,26 @@ import { API_URL } from "../Utils/Envs";
 
 export interface ProfileUpdateDTO {
     username?: string | null;
-    telegramNumber?: string | null;
     newPassword?: string | null;
     confirmNewPassword?: string | null;
 }
 
+export enum UserRole {
+	MANAGER = "MANAGER",
+	AFFILIATE = "AFFILIATE",
+	COMUM = "COMUM"
+}
+
 export interface User {
-    id: string | null;
-    name: string | null;
-    email: string | null;
-    password: string | null;
-    jwt_token: string | null;
-    created_at: string | null;
-    updated_at: string | null;
+    id: string | null
+	role: UserRole
+	role_token: string
+    name: string | null
+    email: string | null
+    password: string | null
+    jwt_token: string | null
+    created_at: string | null
+    updated_at: string | null
 }
 
 interface GlobalStateContextPort {
@@ -32,7 +39,7 @@ interface GlobalStateContextPort {
     userLogout: () => Promise<void>;
     getUser: (token: string) => Promise<void>;
     userRegister: (username: string, email: string, password: string) => Promise<any>;
-    updateProfile({ username, telegramNumber, newPassword, confirmNewPassword }: ProfileUpdateDTO): void;
+    updateProfile({ username, newPassword, confirmNewPassword }: ProfileUpdateDTO): void;
     forgetPassword: (email: string) => Promise<any>;
     resetPassword(resetPasswordToken: string, newPassword: string, confirmNewPassword: string): Promise<any>;
     isValidResetPasswordToken(resetPasswordToken: string): Promise<boolean>;
@@ -70,10 +77,14 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
             },
         });
 
-        const { data: { id, name, email, password, jwt_token, created_at, updated_at } } = await response.json();
+        const {
+            data: { id, role, role_token, name, email, password, jwt_token, created_at, updated_at },
+        } = await response.json();
 
         setUser({
             id,
+			role,
+			role_token,
             name,
             email,
             password,
@@ -199,7 +210,7 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
         }
     }
 
-    async function updateProfile({ username, telegramNumber, newPassword, confirmNewPassword }: ProfileUpdateDTO) {
+    async function updateProfile({ username, newPassword, confirmNewPassword }: ProfileUpdateDTO) {
         try {
             setError(null);
             setLoading(true);
@@ -211,7 +222,6 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
                 },
                 body: JSON.stringify({
                     username,
-                    telegramNumber,
                     newPassword,
                     confirmNewPassword,
                 }),

@@ -35,11 +35,11 @@ export default function LoginForm() {
                     </label>
                     <input
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-						type="email"
+                        type="email"
                         id="email"
                         placeholder="Digit your email here"
-						minLength={8}
-						onChange={(e) => setEmail(e.target.value)}
+                        minLength={8}
+                        onChange={(e) => setEmail(e.target.value)}
                         required
                     />
                 </div>
@@ -49,18 +49,18 @@ export default function LoginForm() {
                     </label>
                     <input
                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-						type="password"
+                        type="password"
                         id="password"
-						minLength={8}
+                        minLength={8}
                         placeholder="Digit your password here"
-						onChange={(e) => setPassword(e.target.value)}
+                        onChange={(e) => setPassword(e.target.value)}
                         required
                     />
                 </div>
 
-				{loading ? <Button disabled={true}>Processing...</Button> : <Button>Login</Button>}
+                {loading ? <Button disabled={true}>Processing...</Button> : <Button>Login</Button>}
 
-				<ErrorAlertMessage message={error && "Email and/or Password Invalid"} />
+                <ErrorAlertMessage message={error && "Email and/or Password Invalid"} />
             </form>
 
             <div className="p-6 text-center mt-5">

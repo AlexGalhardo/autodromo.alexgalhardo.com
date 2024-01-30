@@ -48,11 +48,6 @@ export default function Navbar() {
                         <div className="flex items-center">
                             <div className="flex items-center ms-3">
                                 <div>
-                                    {/* <button
-									type="submit"
-									className="text-white bg-green-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-										Login
-								</button> */}
                                     <button
                                         type="button"
                                         className="flex text-sm text-center rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600"
@@ -73,13 +68,13 @@ export default function Navbar() {
                                 >
                                     <div className="px-4 py-3" role="none">
                                         <p className="text-sm text-gray-900 dark:text-white" role="none">
-                                            Hello, Alex Galhardo
+                                            Hello, {user?.name}
                                         </p>
                                         <p
                                             className="text-sm font-medium text-gray-900 truncate dark:text-gray-300"
                                             role="none"
                                         >
-                                            aleexgvieira@gmail.com
+                                            {user?.email}
                                         </p>
                                     </div>
                                     <ul className="py-1" role="none">
