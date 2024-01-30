@@ -10,6 +10,7 @@ import Maintenances from "./Pages/Maintenances";
 import Roads from "./Pages/Roads";
 import Karts from "./Pages/Karts";
 import Notifications from "./Pages/Notifications";
+import RacesHistory from "./Pages/RacesHistory";
 
 export default function App() {
     return (
@@ -17,6 +18,8 @@ export default function App() {
             <GlobalStateProvider>
                 <Routes>
                     <Route path="/" element={<Races />} />
+					<Route path="/races" element={<Races />} />
+					<Route path="/races/history" element={<RacesHistory />} />
                     <Route path="/users" element={<Users />} />
                     <Route path="/maintenances" element={<Maintenances />} />
                     <Route path="/schedules" element={<Schedules />} />

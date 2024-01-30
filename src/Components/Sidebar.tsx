@@ -27,7 +27,7 @@ export default function Sidebar() {
                                     location.pathname === "/" ? "bg-gray-400" : undefined
                                 }`}
                             >
-								<i className="bi bi-award-fill"></i>
+                                <i className="bi bi-award-fill"></i>
                                 <span className="flex-1 ms-3 whitespace-nowrap">Races</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     23
@@ -41,7 +41,7 @@ export default function Sidebar() {
                                     location.pathname === "/users" ? "bg-gray-400" : undefined
                                 }`}
                             >
-								<i className="bi bi-people-fill"></i>
+                                <i className="bi bi-people-fill"></i>
                                 <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     23
@@ -55,7 +55,7 @@ export default function Sidebar() {
                                     location.pathname === "/maintenances" ? "bg-gray-400" : undefined
                                 }`}
                             >
-								<i className="bi bi-tools"></i>
+                                <i className="bi bi-tools"></i>
                                 <span className="flex-1 ms-3 whitespace-nowrap">Maintenances</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     23
@@ -69,7 +69,7 @@ export default function Sidebar() {
                                     location.pathname === "/schedules" ? "bg-gray-400" : undefined
                                 }`}
                             >
-								<i className="bi bi-calendar"></i>
+                                <i className="bi bi-calendar"></i>
                                 <span className="flex-1 ms-3 whitespace-nowrap">Schedules</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     23
@@ -83,7 +83,7 @@ export default function Sidebar() {
                                     location.pathname === "/roads" ? "bg-gray-400" : undefined
                                 }`}
                             >
-								<i className="bi bi-bezier2"></i>
+                                <i className="bi bi-bezier2"></i>
                                 <span className="flex-1 ms-3 whitespace-nowrap">Roads</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     23
@@ -97,22 +97,38 @@ export default function Sidebar() {
                                     location.pathname === "/karts" ? "bg-gray-400" : undefined
                                 }`}
                             >
-								<i className="bi bi-car-front"></i>
+                                <i className="bi bi-car-front"></i>
                                 <span className="flex-1 ms-3 whitespace-nowrap">Karts</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     23
                                 </span>
                             </a>
                         </li>
+						<li>
+                            <a
+                                href="/races/history"
+                                className={`flex items-center p-2 rounded-lg hover:bg-gray-200 group ${
+                                    location.pathname === "/races/history" ? "bg-gray-400" : undefined
+                                }`}
+                            >
+                                <i className="bi bi-bar-chart"></i>
+                                <span className="flex-1 ms-3 whitespace-nowrap">My Races History</span>
+                                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                    23
+                                </span>
+                            </a>
+                        </li>
+
                         <hr />
-                        <li>
+
+						<li>
                             <a
                                 href="/notifications"
                                 className={`flex items-center p-2 rounded-lg hover:bg-gray-200 group ${
                                     location.pathname === "/notifications" ? "bg-gray-400" : undefined
                                 }`}
                             >
-								<i className="bi bi-bell"></i>
+                                <i className="bi bi-bell"></i>
                                 <span className="flex-1 ms-3 whitespace-nowrap">Notifications</span>
                                 <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
                                     192

@@ -62,7 +62,7 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
     async function getUser(token: string) {
         setLogin(true);
 
-        const response = await fetch(`${API_URL}/check-user-jwt-token`, {
+        const response = await fetch(`${API_URL}/user/check-logged-in`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -70,16 +70,16 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
             },
         });
 
-        const { data } = await response.json();
+        const { data: { id, name, email, password, jwt_token, created_at, updated_at } } = await response.json();
 
         setUser({
-            id: data.id,
-            name: data.username,
-            email: data.email,
-            password: data.password,
-            jwt_token: data.jwt_token,
-            created_at: data.created_at,
-            updated_at: data.updated_at,
+            id,
+            name,
+            email,
+            password,
+            jwt_token,
+            created_at,
+            updated_at,
         });
     }
 
@@ -168,7 +168,7 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
         try {
             setError(null);
             setLoading(true);
-            const response = await fetch(`${API_URL}/login`, {
+            const response = await fetch(`${API_URL}/user/login`, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
@@ -189,7 +189,7 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
                 }
                 window.localStorage.setItem("token", json.jwt_token);
                 await getUser(json.jwt_token);
-                navigate("/profile");
+                navigate("/");
             }
         } catch (err: any) {
             setError(err.message);
