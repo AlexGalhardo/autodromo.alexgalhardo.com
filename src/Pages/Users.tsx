@@ -4,22 +4,40 @@ import { useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { API_URL } from "../Utils/Envs";
+import Button from "../Components/Forms/Button";
+import ErrorAlertMessage from "../Components/Alerts/ErrorAlertMessage";
+import SuccessAlertMessage from "../Components/Alerts/SuccessAlertMessage";
 
 interface User {
     id: string;
     name: string;
     email: string;
-    role: string;
+    role: UserRole;
     created_at: string;
-	updated_at: string;
+    updated_at: string;
+}
+
+enum UserRole {
+	MANAGER = "MANAGER",
+	COMMON = "COMMON",
+	AFFILIATE = "AFFILIATE"
 }
 
 export default function Users() {
     const { login } = useGlobalState();
-	const [users, setUsers] = useState<User[] | null>([]);
+    const [users, setUsers] = useState<User[] | null>([]);
     const [usersFound, setUsersFound] = useState<User[] | null>([]);
 
-	useEffect(() => {
+	const [name, setName] = useState<string>('');
+	const [email, setEmail] = useState<string>('');
+	const [password, setPassword] = useState<string>('');
+	const [userRole, setUserRole] = useState('COMMON');
+	const [loadingCreatingUser, setLoadingCreatingUser] = useState<boolean>(false);
+	const [errorCreatingUser, setErrorCreatingUser] = useState<boolean>(false);
+	const [createdUser, setCreatedUser] = useState<boolean>(false);
+	const [errorAPI, setErrorAPI] = useState<string>('');
+
+    useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const response = await fetch(`${API_URL}/user/all`, {
@@ -34,7 +52,7 @@ export default function Users() {
                 if (data) {
                     setUsers(data);
                 }
-            } catch (error) {
+            } catch (error: any) {
                 console.error("Error fetching users: ", error);
             }
         };
@@ -42,7 +60,7 @@ export default function Users() {
         fetchUsers();
     }, []);
 
-	const handleSearchUserId = (e: any) => {
+    const handleSearchUserId = (e: any) => {
         const userId = e.target.value;
 
         if (userId.trim() !== "" && userId.length > 2) {
@@ -57,6 +75,59 @@ export default function Users() {
             setUsersFound([]);
         }
     };
+
+	const handleUserRoleChange = (e: any) => {
+        setUserRole(e.target.value);
+    };
+
+	async function handleCreateUser(event: any) {
+        event.preventDefault();
+
+        if(name && email && password && userRole){
+			try {
+				setLoadingCreatingUser(true)
+				setErrorCreatingUser(false)
+                const response = await fetch(`${API_URL}/user`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+                    },
+					body: JSON.stringify({
+						name,
+						email,
+						password,
+						role: userRole
+					})
+                });
+
+                const { success, message } = await response.json();
+                if (success) {
+					setCreatedUser(true)
+                }
+				else if(message) {
+					setErrorCreatingUser(true)
+					setErrorAPI(message)
+				}
+            } catch (error: any) {
+				setCreatedUser(false)
+				setErrorCreatingUser(true)
+				setErrorAPI(error.message)
+                console.error("Error creating user: ", error);
+            } finally {
+				setLoadingCreatingUser(false)
+			}
+		}
+    }
+
+	useEffect(() => {
+        if (createdUser) {
+            setName('');
+            setEmail('');
+            setPassword('');
+            setUserRole('');
+        }
+    }, [createdUser]);
 
     if (login === false) {
         return <Navigate to="/login" />;
@@ -93,7 +164,7 @@ export default function Users() {
                                             id="simple-search"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search User ID"
-											onChange={handleSearchUserId}
+                                            onChange={handleSearchUserId}
                                             required
                                         />
                                     </div>
@@ -204,7 +275,7 @@ export default function Users() {
                                                     htmlFor="razor"
                                                     className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-100"
                                                 >
-                                                    COMUM
+                                                    COMMON
                                                 </label>
                                             </li>
                                         </ul>
@@ -234,23 +305,23 @@ export default function Users() {
                                     </tr>
                                 </thead>
                                 <tbody>
-									{usersFound?.length === 0 &&
+                                    {usersFound?.length === 0 &&
                                         users?.map((user) => (
-											<tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-												<th
-													scope="row"
-													className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-												>
-													{user.id}
-												</th>
-												<td className="px-4 py-3">{user.email}</td>
-												<td className="px-4 py-3">{user.role}</td>
-												<td className="px-4 py-3">{user.created_at}</td>
-												<td className="px-4 py-3">{user.updated_at}</td>
-											</tr>
-									))}
+                                            <tr key={user.id} className="border-b dark:border-gray-700 hover:bg-gray-300">
+                                                <th
+                                                    scope="row"
+                                                    className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                                >
+                                                    {user.id}
+                                                </th>
+                                                <td className="px-4 py-3">{user.email}</td>
+                                                <td className="px-4 py-3">{user.role}</td>
+                                                <td className="px-4 py-3">{user.created_at}</td>
+                                                <td className="px-4 py-3">{user.updated_at}</td>
+                                            </tr>
+                                        ))}
 
-									{usersFound?.map((user) => (
+                                    {usersFound?.map((user) => (
                                         <tr key={user.id} className="border-b dark:border-gray-700 hover:bg-gray-300">
                                             <th
                                                 scope="row"
@@ -259,9 +330,9 @@ export default function Users() {
                                                 {user?.id}
                                             </th>
                                             <td className="px-4 py-3">{user.email}</td>
-											<td className="px-4 py-3">{user.role}</td>
-											<td className="px-4 py-3">{user.created_at}</td>
-											<td className="px-4 py-3">{user.updated_at}</td>
+                                            <td className="px-4 py-3">{user.role}</td>
+                                            <td className="px-4 py-3">{user.created_at}</td>
+                                            <td className="px-4 py-3">{user.updated_at}</td>
                                             <td className="px-4 py-3">Edit</td>
                                             <td className="px-4 py-3">Delete</td>
                                         </tr>
@@ -281,7 +352,7 @@ export default function Users() {
             >
                 <div className="relative p-4 w-full max-w-md max-h-full">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                        <form className="p-4 md:p-5">
+                        <form className="p-4 md:p-5" onSubmit={handleCreateUser}>
                             <div className="grid gap-4 mb-4 grid-cols-2">
                                 <div className="col-span-2">
                                     <label
@@ -297,6 +368,8 @@ export default function Users() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit user name"
                                         required
+										value={name}
+										onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -313,6 +386,8 @@ export default function Users() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit user email"
                                         required
+										value={email}
+										onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -329,6 +404,8 @@ export default function Users() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit user password"
                                         required
+										value={password}
+										onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -341,32 +418,22 @@ export default function Users() {
                                     <select
                                         id="category"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
+										onChange={handleUserRoleChange}
                                     >
-                                        <option defaultValue={"COMUM"}>Select role</option>
-                                        <option value="COMUM">COMUM</option>
+                                        <option defaultValue={"COMMON"}>Select role</option>
+                                        <option value="COMMON">COMMON</option>
                                         <option value="MANAGER">MANAGER</option>
                                         <option value="AFFILIATE">AFFILIATE</option>
+
                                     </select>
                                 </div>
                             </div>
-                            <button
-                                type="submit"
-                                className="text-white inline-flex items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                            >
-                                <svg
-                                    className="me-1 -ms-1 w-5 h-5"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                        clipRule="evenodd"
-                                    ></path>
-                                </svg>
-                                Add new user
-                            </button>
+
+							{loadingCreatingUser ? <Button disabled={true}>Processing...</Button> : <Button>Add New User</Button>}
+
+                			<ErrorAlertMessage message={errorCreatingUser && errorAPI } />
+
+							<SuccessAlertMessage message={createdUser && `User Created!`} />
                         </form>
                     </div>
                 </div>

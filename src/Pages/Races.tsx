@@ -15,8 +15,8 @@ interface Race {
 
 export default function Races() {
     const { login } = useGlobalState();
-    const [races, setRaces] = useState<Race[] | null>(null);
-    const [racesFound, setRacesFound] = useState<Race[] | null>(null);
+    const [races, setRaces] = useState<Race[] | null>([]);
+    const [racesFound, setRacesFound] = useState<Race[] | null>([]);
 
     useEffect(() => {
         const fetchRaces = async () => {

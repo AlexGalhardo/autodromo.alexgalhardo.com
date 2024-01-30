@@ -11,7 +11,7 @@ export interface ProfileUpdateDTO {
 export enum UserRole {
     MANAGER = "MANAGER",
     AFFILIATE = "AFFILIATE",
-    COMUM = "COMUM",
+    COMMON = "COMMON",
 }
 
 export interface User {
