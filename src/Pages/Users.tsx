@@ -2,9 +2,61 @@ import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
 import { useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { API_URL } from "../Utils/Envs";
+
+interface User {
+    id: string;
+    name: string;
+    email: string;
+    role: string;
+    created_at: string;
+	updated_at: string;
+}
 
 export default function Users() {
     const { login } = useGlobalState();
+	const [users, setUsers] = useState<User[] | null>([]);
+    const [usersFound, setUsersFound] = useState<User[] | null>([]);
+
+	useEffect(() => {
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch(`${API_URL}/user/all`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+                    },
+                });
+
+                const { data } = await response.json();
+                if (data) {
+                    setUsers(data);
+                }
+            } catch (error) {
+                console.error("Error fetching users: ", error);
+            }
+        };
+
+        fetchUsers();
+    }, []);
+
+	const handleSearchUserId = (e: any) => {
+        const userId = e.target.value;
+
+        if (userId.trim() !== "" && userId.length > 2) {
+            const racesFiltered = users?.filter((user) => user.id === userId);
+
+            if (racesFiltered?.length) {
+                setUsersFound(racesFiltered);
+            } else {
+                setUsersFound([]);
+            }
+        } else {
+            setUsersFound([]);
+        }
+    };
 
     if (login === false) {
         return <Navigate to="/login" />;
@@ -41,6 +93,7 @@ export default function Users() {
                                             id="simple-search"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search User ID"
+											onChange={handleSearchUserId}
                                             required
                                         />
                                     </div>
@@ -181,174 +234,38 @@ export default function Users() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                        <th
-                                            scope="row"
-                                            className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                            65b68955e0d74179ef5deec4
-                                        </th>
-                                        <td className="px-4 py-3">aleexgvieira@gmail.com</td>
-                                        <td className="px-4 py-3">COMUM</td>
-                                        <td className="px-4 py-3">27/01/2024 14:50</td>
-                                        <td className="px-4 py-3">27/01/2024 15:50</td>
-                                        <td className="px-4 py-3 flex items-center justify-end">
-                                            <button
-                                                id="apple-imac-27-dropdown-button"
-                                                data-dropdown-toggle="apple-imac-27-dropdown"
-                                                className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                                                type="button"
+									{usersFound?.length === 0 &&
+                                        users?.map((user) => (
+											<tr className="border-b dark:border-gray-700 hover:bg-gray-300">
+												<th
+													scope="row"
+													className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+												>
+													{user.id}
+												</th>
+												<td className="px-4 py-3">{user.email}</td>
+												<td className="px-4 py-3">{user.role}</td>
+												<td className="px-4 py-3">{user.created_at}</td>
+												<td className="px-4 py-3">{user.updated_at}</td>
+											</tr>
+									))}
+
+									{usersFound?.map((user) => (
+                                        <tr key={user.id} className="border-b dark:border-gray-700 hover:bg-gray-300">
+                                            <th
+                                                scope="row"
+                                                className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                                             >
-                                                Actions
-                                            </button>
-                                            <div
-                                                id="apple-imac-27-dropdown"
-                                                className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                            >
-                                                <ul
-                                                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="apple-imac-27-dropdown-button"
-                                                >
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Show
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Edit
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div className="py-1">
-                                                    <a
-                                                        href="#"
-                                                        className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                        <th
-                                            scope="row"
-                                            className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                            65b68955e0d74179ef5deec4
-                                        </th>
-                                        <td className="px-4 py-3">galhardo@gmail.com</td>
-                                        <td className="px-4 py-3">AFFILIATE</td>
-                                        <td className="px-4 py-3">27/01/2024 14:50</td>
-                                        <td className="px-4 py-3">27/01/2024 15:50</td>
-                                        <td className="px-4 py-3 flex items-center justify-end">
-                                            <button
-                                                id="apple-imac-27-dropdown-button"
-                                                data-dropdown-toggle="apple-imac-28-dropdown"
-                                                className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                                                type="button"
-                                            >
-                                                Actions
-                                            </button>
-                                            <div
-                                                id="apple-imac-28-dropdown"
-                                                className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                            >
-                                                <ul
-                                                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="apple-imac-28-dropdown-button"
-                                                >
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Show
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Edit
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div className="py-1">
-                                                    <a
-                                                        href="#"
-                                                        className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                        <th
-                                            scope="row"
-                                            className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                            65b68955e0d74179ef5deec4
-                                        </th>
-                                        <td className="px-4 py-3">zezinho@gmail.com</td>
-                                        <td className="px-4 py-3">MANAGER</td>
-                                        <td className="px-4 py-3">27/01/2024 14:50</td>
-                                        <td className="px-4 py-3">27/01/2024 15:50</td>
-                                        <td className="px-4 py-3 flex items-center justify-end">
-                                            <button
-                                                id="apple-imac-27-dropdown-button"
-                                                data-dropdown-toggle="apple-imac-29-dropdown"
-                                                className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                                                type="button"
-                                            >
-                                                Actions
-                                            </button>
-                                            <div
-                                                id="apple-imac-29-dropdown"
-                                                className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                            >
-                                                <ul
-                                                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="apple-imac-29-dropdown-button"
-                                                >
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Show
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Edit
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div className="py-1">
-                                                    <a
-                                                        href="#"
-                                                        className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+                                                {user?.id}
+                                            </th>
+                                            <td className="px-4 py-3">{user.email}</td>
+											<td className="px-4 py-3">{user.role}</td>
+											<td className="px-4 py-3">{user.created_at}</td>
+											<td className="px-4 py-3">{user.updated_at}</td>
+                                            <td className="px-4 py-3">Edit</td>
+                                            <td className="px-4 py-3">Delete</td>
+                                        </tr>
+                                    ))}
                                 </tbody>
                             </table>
                         </div>

@@ -2,7 +2,7 @@ import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
 import { useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { API_URL } from "../Utils/Envs";
 
 interface Race {
@@ -16,7 +16,7 @@ interface Race {
 export default function Races() {
     const { login } = useGlobalState();
     const [races, setRaces] = useState<Race[] | null>(null);
-	const [racesFound, setRacesFound] = useState<Race[] | null>(null);
+    const [racesFound, setRacesFound] = useState<Race[] | null>(null);
 
     useEffect(() => {
         const fetchRaces = async () => {
@@ -41,22 +41,21 @@ export default function Races() {
         fetchRaces();
     }, []);
 
-	const handleSearchRaceId = (e: any) => {
-		const raceId = e.target.value;
+    const handleSearchRaceId = (e: any) => {
+        const raceId = e.target.value;
 
-		if (raceId.trim() !== "" && raceId.length > 2) {
-			const racesFiltered = races?.filter(race => race.id === raceId);
+        if (raceId.trim() !== "" && raceId.length > 2) {
+            const racesFiltered = races?.filter((race) => race.id === raceId);
 
-			if (racesFiltered?.length) {
-				setRacesFound(racesFiltered); // Update the state with filtered races
-			} else {
-				setRacesFound([]); // Reset racesFound if no races are found
-			}
-		} else {
-			setRacesFound([]); // Reset racesFound if input length is less than or equal to 2
-		}
-	};
-
+            if (racesFiltered?.length) {
+                setRacesFound(racesFiltered);
+            } else {
+                setRacesFound([]);
+            }
+        } else {
+            setRacesFound([]);
+        }
+    };
 
     if (login === false) {
         return <Navigate to="/login" />;
@@ -93,7 +92,7 @@ export default function Races() {
                                             id="simple-search"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search Race ID"
-											onChange={handleSearchRaceId}
+                                            onChange={handleSearchRaceId}
                                             required
                                         />
                                     </div>
@@ -212,24 +211,28 @@ export default function Races() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {racesFound?.length === 0 && races?.map((race) => (
-                                        <tr key={race.id} className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                            <th
-                                                scope="row"
-                                                className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                    {racesFound?.length === 0 &&
+                                        races?.map((race) => (
+                                            <tr
+                                                key={race.id}
+                                                className="border-b dark:border-gray-700 hover:bg-gray-300"
                                             >
-                                                {race?.id}
-                                            </th>
-                                            <td className="px-4 py-3">{race?.user_id}</td>
-                                            <td className="px-4 py-3">{race?.status}</td>
-                                            <td className="px-4 py-3">{race?.starts_at}</td>
-                                            <td className="px-4 py-3">{race?.ends_at ?? "TO BE DEFINED"}</td>
-                                            <td className="px-4 py-3">Edit</td>
-                                            <td className="px-4 py-3">Delete</td>
-                                        </tr>
-                                    ))}
+                                                <th
+                                                    scope="row"
+                                                    className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                                                >
+                                                    {race?.id}
+                                                </th>
+                                                <td className="px-4 py-3">{race?.user_id}</td>
+                                                <td className="px-4 py-3">{race?.status}</td>
+                                                <td className="px-4 py-3">{race?.starts_at}</td>
+                                                <td className="px-4 py-3">{race?.ends_at ?? "TO BE DEFINED"}</td>
+                                                <td className="px-4 py-3">Edit</td>
+                                                <td className="px-4 py-3">Delete</td>
+                                            </tr>
+                                        ))}
 
-									{racesFound?.map((race) => (
+                                    {racesFound?.map((race) => (
                                         <tr key={race.id} className="border-b dark:border-gray-700 hover:bg-gray-300">
                                             <th
                                                 scope="row"
