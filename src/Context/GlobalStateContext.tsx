@@ -9,21 +9,21 @@ export interface ProfileUpdateDTO {
 }
 
 export enum UserRole {
-	MANAGER = "MANAGER",
-	AFFILIATE = "AFFILIATE",
-	COMUM = "COMUM"
+    MANAGER = "MANAGER",
+    AFFILIATE = "AFFILIATE",
+    COMUM = "COMUM",
 }
 
 export interface User {
-    id: string | null
-	role: UserRole
-	role_token: string
-    name: string | null
-    email: string | null
-    password: string | null
-    jwt_token: string | null
-    created_at: string | null
-    updated_at: string | null
+    id: string | null;
+    role: UserRole;
+    role_token: string;
+    name: string | null;
+    email: string | null;
+    password: string | null;
+    jwt_token: string | null;
+    created_at: string | null;
+    updated_at: string | null;
 }
 
 interface GlobalStateContextPort {
@@ -83,8 +83,8 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
 
         setUser({
             id,
-			role,
-			role_token,
+            role,
+            role_token,
             name,
             email,
             password,
