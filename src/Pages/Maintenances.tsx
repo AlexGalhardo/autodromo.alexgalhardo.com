@@ -39,7 +39,7 @@ export default function Maintenances() {
                                 </form>
                             </div>
                             <div className="w-full md:w-auto flex flex-col md:flex-row space-y-2 md:space-y-0 items-stretch md:items-center justify-end md:space-x-3 flex-shrink-0">
-                                <button
+                                {/* <button
                                     type="button"
                                     className="flex items-center justify-center border border-green-500 text-green-500 hover:text-green hover:bg-green-500 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-4 py-2 dark:border-green-400 dark:text-green-400 dark:hover:text-white dark:hover:bg-green-400 dark:focus:ring-green-800 focus:outline-none"
                                 >
@@ -57,7 +57,7 @@ export default function Maintenances() {
                                         />
                                     </svg>
                                     Add Maintenance
-                                </button>
+                                </button> */}
 
                                 <div className="flex items-center space-x-3 w-full md:w-auto">
                                     <button
