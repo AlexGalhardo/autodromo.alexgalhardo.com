@@ -2,11 +2,128 @@ import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
 import { useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
+import SuccessAlertMessage from "../Components/Alerts/SuccessAlertMessage";
+import ErrorAlertMessage from "../Components/Alerts/ErrorAlertMessage";
+import Button from "../Components/Forms/Button";
+import { useEffect, useState } from "react";
+import { API_URL } from "../Utils/Envs";
+import ScheduleTableRow from "../Components/TableRow/ScheduleTableRow";
+
+export interface Schedule {
+	id: string;
+    user_id: string;
+    kart_id: string;
+    road_id: string;
+	starts_at: string;
+	ends_at: string;
+    created_at: string;
+    updated_at: string;
+}
 
 export default function Schedules() {
     const { login } = useGlobalState();
 
-    if (login === false) {
+	const [schedules, setSchedules] = useState<Schedule[] | null>([]);
+	const [scheduleSearchedById, setScheduleSearchedById] = useState<Schedule | null>(null);
+
+	const [kart_id, setKartId] = useState<string>("");
+    const [road_id, setRoadId] = useState<string>("");
+    const [starts_at, setStartsAt] = useState<string>("");
+    const [ends_at, setEndsAt] = useState<string>("");
+
+	const [loadingCreatingSchedule, setLoadingCreatingSchedule] = useState<boolean>(false);
+	const [errorCreatingSchedule, setErrorCreatingSchedule] = useState<boolean>(false);
+    const [createdSchedule, setCreatedSchedule] = useState<boolean>(false);
+    const [errorAPI, setErrorAPI] = useState<string>("");
+
+	useEffect(() => {
+        const fetchSchedules = async () => {
+            try {
+                const response = await fetch(`${API_URL}/schedule/all`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+                    },
+                });
+
+                const { data } = await response.json();
+                if (data) {
+                    setSchedules(data);
+                }
+            } catch (error: any) {
+                console.error("Error fetching schedules: ", error);
+            }
+        };
+
+        fetchSchedules();
+    }, []);
+
+    const handleSearchScheduleId = (e: any) => {
+        const scheduleId = e.target.value;
+
+        if (scheduleId.trim() !== "" && scheduleId.length > 2) {
+            const scheduleFoundById = schedules?.filter((schedule) => schedule.id === scheduleId);
+
+            if (scheduleFoundById) {
+                setScheduleSearchedById(scheduleFoundById[0]);
+            } else {
+                setScheduleSearchedById(null);
+            }
+        } else {
+            setScheduleSearchedById(null);
+        }
+    };
+
+    async function handleCreateSchedule(event: any) {
+        event.preventDefault();
+
+        if (kart_id && road_id && starts_at && ends_at) {
+            try {
+                setLoadingCreatingSchedule(true);
+                setErrorCreatingSchedule(false);
+                const response = await fetch(`${API_URL}/schedule`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+                    },
+                    body: JSON.stringify({
+                        kart_id,
+                        road_id,
+                        starts_at,
+                        ends_at,
+                    }),
+                });
+
+                const { success, message } = await response.json();
+                if (success) {
+                    setCreatedSchedule(true);
+                } else if (message) {
+                    setErrorCreatingSchedule(true);
+                    setErrorAPI(message);
+                }
+            } catch (error: any) {
+                setCreatedSchedule(false);
+                setErrorCreatingSchedule(true);
+                setErrorAPI(error.message);
+                console.error("Error creating schedule: ", error);
+            } finally {
+                setLoadingCreatingSchedule(false);
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (createdSchedule) {
+            setKartId("");
+            setRoadId("");
+            setStartsAt("");
+            setEndsAt("");
+        }
+    }, [createdSchedule]);
+
+	if (login === false) {
         return <Navigate to="/login" />;
     }
 
@@ -41,6 +158,7 @@ export default function Schedules() {
                                             id="simple-search"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search Schedule ID"
+											onChange={handleSearchScheduleId}
                                             required
                                         />
                                     </div>
@@ -167,7 +285,7 @@ export default function Schedules() {
                                             SCHEDULE ID
                                         </th>
                                         <th scope="col" className="px-4 py-3">
-                                            CREATED BY
+                                            USER ID
                                         </th>
                                         <th scope="col" className="px-4 py-3">
                                             ROAD ID
@@ -184,63 +302,15 @@ export default function Schedules() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                        <th
-                                            scope="row"
-                                            className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                            65b68955e0d74179ef5deec4
-                                        </th>
-                                        <td className="px-4 py-3">aleexgvieira@gmail.com</td>
-                                        <td className="px-4 py-3">65b68955e0d74179ef5deec4</td>
-                                        <td className="px-4 py-3">65b68955e0d74179ef5deec4</td>
-                                        <td className="px-4 py-3">27/01/2024 14:50</td>
-                                        <td className="px-4 py-3">27/01/2024 15:50</td>
-                                        <td className="px-4 py-3 flex items-center justify-end">
-                                            <button
-                                                id="apple-imac-27-dropdown-button"
-                                                data-dropdown-toggle="apple-imac-27-dropdown"
-                                                className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                                                type="button"
-                                            >
-                                                Actions
-                                            </button>
-                                            <div
-                                                id="apple-imac-27-dropdown"
-                                                className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                            >
-                                                <ul
-                                                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="apple-imac-27-dropdown-button"
-                                                >
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Show
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Edit
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div className="py-1">
-                                                    <a
-                                                        href="#"
-                                                        className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+									{!scheduleSearchedById &&
+                                        schedules?.map(schedule => (
+											<ScheduleTableRow schedule={schedule} />
+										)
+									)}
+
+									{scheduleSearchedById && (
+										<ScheduleTableRow schedule={scheduleSearchedById} />
+									)}
                                 </tbody>
                             </table>
                         </div>
@@ -256,7 +326,7 @@ export default function Schedules() {
             >
                 <div className="relative p-4 w-full max-w-md max-h-full">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                        <form className="p-4 md:p-5">
+                        <form className="p-4 md:p-5" onSubmit={handleCreateSchedule}>
                             <div className="grid gap-4 mb-4 grid-cols-2">
                                 <div className="col-span-2">
                                     <label
@@ -270,8 +340,10 @@ export default function Schedules() {
                                         name="road_id"
                                         id="road_id"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Digit user name"
+                                        placeholder="Digit road ID"
                                         required
+										value={road_id}
+										onChange={(e) => setRoadId(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -286,8 +358,10 @@ export default function Schedules() {
                                         name="kart_id"
                                         id="kart_id"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-                                        placeholder="Digit user email"
+                                        placeholder="Digit kart id"
                                         required
+										value={kart_id}
+										onChange={(e) => setKartId(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -304,6 +378,8 @@ export default function Schedules() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Example: 28/01/2024 16:00"
                                         required
+										value={starts_at}
+										onChange={(e) => setStartsAt(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -320,27 +396,21 @@ export default function Schedules() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Example: 28/01/2024 17:00"
                                         required
+										value={ends_at}
+										onChange={(e) => setEndsAt(e.target.value)}
                                     />
                                 </div>
                             </div>
-                            <button
-                                type="submit"
-                                className="text-white inline-flex items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                            >
-                                <svg
-                                    className="me-1 -ms-1 w-5 h-5"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                        clipRule="evenodd"
-                                    ></path>
-                                </svg>
-                                Add Schedule
-                            </button>
+
+							{loadingCreatingSchedule ? (
+                                <Button disabled={true}>Processing...</Button>
+                            ) : (
+                                <Button>Add New Schedule</Button>
+                            )}
+
+                            <ErrorAlertMessage message={errorCreatingSchedule && errorAPI} />
+
+                            <SuccessAlertMessage message={createdSchedule && `Schedule Created!`} />
                         </form>
                     </div>
                 </div>

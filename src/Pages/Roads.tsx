@@ -2,9 +2,129 @@ import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
 import { useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { API_URL } from "../Utils/Envs";
+import Button from "../Components/Forms/Button";
+import ErrorAlertMessage from "../Components/Alerts/ErrorAlertMessage";
+import SuccessAlertMessage from "../Components/Alerts/SuccessAlertMessage";
+import RoadTableRow from "../Components/TableRow/RoadTableRow";
+
+export interface Road {
+	id: string
+	name: string
+	kilometers: number
+	quantity_boxes: number
+	quantity_places: number
+	address: string
+	created_at: string
+	updated_at: string
+}
 
 export default function Roads() {
     const { login } = useGlobalState();
+
+	const [roads, setRoads] = useState<Road[] | null>([]);
+	const [roadSearchedById, setRoadSearchedById] = useState<Road | null>(null);
+
+	const [name, setName] = useState<string>("");
+    const [kilometers, setKilometers] = useState<number>(0);
+    const [quantity_boxes, setQuantityBoxes] = useState<number>(0);
+    const [quantity_places, setQuantityPlaces] = useState<number>(0)
+	const [address, setAddress] = useState<string>("");
+
+	const [loadingCreatingRoad, setLoadingCreatingRoad] = useState<boolean>(false);
+	const [errorCreatingRoad, setErrorCreatingRoad] = useState<boolean>(false);
+    const [createdRoad, setCreatedRoad] = useState<boolean>(false);
+    const [errorAPI, setErrorAPI] = useState<string>("");
+
+	useEffect(() => {
+        const fetchRoads = async () => {
+            try {
+                const response = await fetch(`${API_URL}/road/all`, {
+                    method: "GET",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+                    },
+                });
+
+                const { data } = await response.json();
+                if (data) {
+                    setRoads(data);
+                }
+            } catch (error: any) {
+                console.error("Error fetching roads: ", error);
+            }
+        };
+
+        fetchRoads();
+    }, []);
+
+    const handleSearchRoadId = (e: any) => {
+        const scheduleId = e.target.value;
+
+        if (scheduleId.trim() !== "" && scheduleId.length > 2) {
+            const scheduleFoundById = roads?.filter((schedule) => schedule.id === scheduleId);
+
+            if (scheduleFoundById) {
+                setRoadSearchedById(scheduleFoundById[0]);
+            } else {
+                setRoadSearchedById(null);
+            }
+        } else {
+            setRoadSearchedById(null);
+        }
+    };
+
+    async function handleCreateRoad(event: any) {
+        event.preventDefault();
+
+        if (name && kilometers && quantity_boxes && quantity_places && address) {
+            try {
+                setLoadingCreatingRoad(true);
+                setErrorCreatingRoad(false);
+                const response = await fetch(`${API_URL}/road`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+                    },
+                    body: JSON.stringify({
+                        name,
+                        kilometers,
+                        quantity_boxes,
+                        quantity_places,
+						address
+                    }),
+                });
+
+                const { success, message } = await response.json();
+                if (success) {
+                    setCreatedRoad(true);
+                } else if (message) {
+                    setErrorCreatingRoad(true);
+                    setErrorAPI(message);
+                }
+            } catch (error: any) {
+                setCreatedRoad(false);
+                setErrorCreatingRoad(true);
+                setErrorAPI(error.message);
+                console.error("Error creating road: ", error);
+            } finally {
+                setLoadingCreatingRoad(false);
+            }
+        }
+    }
+
+    useEffect(() => {
+        if (createdRoad) {
+            setName("");
+            setKilometers(0);
+            setQuantityBoxes(0);
+            setQuantityPlaces(0);
+			setAddress("");
+        }
+    }, [createdRoad]);
 
     if (login === false) {
         return <Navigate to="/login" />;
@@ -42,6 +162,7 @@ export default function Roads() {
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search Road ID"
                                             required
+											onChange={handleSearchRoadId}
                                         />
                                     </div>
                                 </form>
@@ -164,9 +285,6 @@ export default function Roads() {
                                 <thead className="text-lsx text-green uppercase dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" className="px-4 py-3">
-                                            STATUS
-                                        </th>
-                                        <th scope="col" className="px-4 py-3">
                                             ROAD ID
                                         </th>
                                         <th scope="col" className="px-4 py-3">
@@ -187,64 +305,15 @@ export default function Roads() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                        <td className="px-4 py-3">AVAILABLE</td>
-                                        <th
-                                            scope="row"
-                                            className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                        >
-                                            65b68955e0d74179ef5deec4
-                                        </th>
-                                        <td className="px-4 py-3">Road One</td>
-                                        <td className="px-4 py-3">24</td>
-                                        <td className="px-4 py-3">2000</td>
-                                        <td className="px-4 py-3">5000</td>
-                                        <td className="px-4 py-3">Rua logo ali</td>
-                                        <td className="px-4 py-3 flex items-center justify-end">
-                                            <button
-                                                id="apple-imac-27-dropdown-button"
-                                                data-dropdown-toggle="apple-imac-27-dropdown"
-                                                className="inline-flex items-center p-0.5 text-sm font-medium text-center text-gray-500 hover:text-gray-800 rounded-lg focus:outline-none dark:text-gray-400 dark:hover:text-gray-100"
-                                                type="button"
-                                            >
-                                                Actions
-                                            </button>
-                                            <div
-                                                id="apple-imac-27-dropdown"
-                                                className="hidden z-10 w-44 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                            >
-                                                <ul
-                                                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="apple-imac-27-dropdown-button"
-                                                >
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Show
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Edit
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                                <div className="py-1">
-                                                    <a
-                                                        href="#"
-                                                        className="block py-2 px-4 text-sm text-gray-700 hover:bg-gray-100 dark:hover:bg-gray-600 dark:text-gray-200 dark:hover:text-white"
-                                                    >
-                                                        Delete
-                                                    </a>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
+									{!roadSearchedById &&
+                                        roads?.map(road => (
+											<RoadTableRow road={road} />
+										)
+									)}
+
+									{roadSearchedById && (
+										<RoadTableRow road={roadSearchedById} />
+									)}
                                 </tbody>
                             </table>
                         </div>
@@ -260,7 +329,7 @@ export default function Roads() {
             >
                 <div className="relative p-4 w-full max-w-md max-h-full">
                     <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
-                        <form className="p-4 md:p-5">
+                        <form className="p-4 md:p-5" onSubmit={handleCreateRoad}>
                             <div className="grid gap-4 mb-4 grid-cols-2">
                                 <div className="col-span-2">
                                     <label
@@ -271,11 +340,13 @@ export default function Roads() {
                                     </label>
                                     <input
                                         type="text"
-                                        name="road_id"
-                                        id="road_id"
+                                        name="road_name"
+                                        id="road_name"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road name"
                                         required
+										value={name}
+										onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -295,6 +366,8 @@ export default function Roads() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Total road kilometers"
                                         required
+										value={kilometers}
+										onChange={(e) => setKilometers(Number(e.target.value))}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -314,6 +387,8 @@ export default function Roads() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road quantity boxes"
                                         required
+										value={quantity_boxes}
+										onChange={(e) => setQuantityBoxes(Number(e.target.value))}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -328,11 +403,13 @@ export default function Roads() {
                                         step={1}
                                         min={10}
                                         max={10000}
-                                        name="road_quantity_boxes"
-                                        id="road_quantity_boxes"
+                                        name="road_quantity_places"
+                                        id="road_quantity_places"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road quantitty places"
                                         required
+										value={quantity_places}
+										onChange={(e) => setQuantityPlaces(Number(e.target.value))}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -349,27 +426,20 @@ export default function Roads() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road address"
                                         required
+										value={address}
+										onChange={(e) => setAddress(e.target.value)}
                                     />
                                 </div>
                             </div>
-                            <button
-                                type="submit"
-                                className="text-white inline-flex items-center bg-green-700 hover:bg-green-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                            >
-                                <svg
-                                    className="me-1 -ms-1 w-5 h-5"
-                                    fill="currentColor"
-                                    viewBox="0 0 20 20"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                >
-                                    <path
-                                        fillRule="evenodd"
-                                        d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
-                                        clipRule="evenodd"
-                                    ></path>
-                                </svg>
-                                Add Road
-                            </button>
+                            {loadingCreatingRoad ? (
+                                <Button disabled={true}>Processing...</Button>
+                            ) : (
+                                <Button>Add New Road</Button>
+                            )}
+
+                            <ErrorAlertMessage message={errorCreatingRoad && errorAPI} />
+
+                            <SuccessAlertMessage message={createdRoad && `Road Created!`} />
                         </form>
                     </div>
                 </div>

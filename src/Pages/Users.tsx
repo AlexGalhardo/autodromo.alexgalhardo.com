@@ -7,8 +7,9 @@ import { API_URL } from "../Utils/Envs";
 import Button from "../Components/Forms/Button";
 import ErrorAlertMessage from "../Components/Alerts/ErrorAlertMessage";
 import SuccessAlertMessage from "../Components/Alerts/SuccessAlertMessage";
+import UserTableRow from "../Components/TableRow/UserTableRow";
 
-interface User {
+export interface UserRace {
     id: string;
     name: string;
     email: string;
@@ -17,25 +18,26 @@ interface User {
     updated_at: string;
 }
 
-enum UserRole {
-	MANAGER = "MANAGER",
-	COMMON = "COMMON",
-	AFFILIATE = "AFFILIATE"
+export enum UserRole {
+    MANAGER = "MANAGER",
+    COMMON = "COMMON",
+    AFFILIATE = "AFFILIATE",
 }
 
 export default function Users() {
     const { login } = useGlobalState();
-    const [users, setUsers] = useState<User[] | null>([]);
-    const [usersFound, setUsersFound] = useState<User[] | null>([]);
+    const [users, setUsers] = useState<UserRace[] | null>([]);
+    const [userSearchedById, setUserSearchedById] = useState<UserRace | null>(null);
 
-	const [name, setName] = useState<string>('');
-	const [email, setEmail] = useState<string>('');
-	const [password, setPassword] = useState<string>('');
-	const [userRole, setUserRole] = useState('COMMON');
+    const [name, setName] = useState<string>("");
+    const [email, setEmail] = useState<string>("");
+    const [password, setPassword] = useState<string>("");
+    const [userRole, setUserRole] = useState("COMMON");
+
 	const [loadingCreatingUser, setLoadingCreatingUser] = useState<boolean>(false);
-	const [errorCreatingUser, setErrorCreatingUser] = useState<boolean>(false);
-	const [createdUser, setCreatedUser] = useState<boolean>(false);
-	const [errorAPI, setErrorAPI] = useState<string>('');
+    const [errorCreatingUser, setErrorCreatingUser] = useState<boolean>(false);
+    const [createdUser, setCreatedUser] = useState<boolean>(false);
+    const [errorAPI, setErrorAPI] = useState<string>("");
 
     useEffect(() => {
         const fetchUsers = async () => {
@@ -64,68 +66,67 @@ export default function Users() {
         const userId = e.target.value;
 
         if (userId.trim() !== "" && userId.length > 2) {
-            const racesFiltered = users?.filter((user) => user.id === userId);
+            const userFoundById = users?.filter((user) => user.id === userId);
 
-            if (racesFiltered?.length) {
-                setUsersFound(racesFiltered);
+            if (userFoundById) {
+                setUserSearchedById(userFoundById[0]);
             } else {
-                setUsersFound([]);
+                setUserSearchedById(null);
             }
         } else {
-            setUsersFound([]);
+            setUserSearchedById(null);
         }
     };
 
-	const handleUserRoleChange = (e: any) => {
+    const handleUserRoleChange = (e: any) => {
         setUserRole(e.target.value);
     };
 
-	async function handleCreateUser(event: any) {
+    async function handleCreateUser(event: any) {
         event.preventDefault();
 
-        if(name && email && password && userRole){
-			try {
-				setLoadingCreatingUser(true)
-				setErrorCreatingUser(false)
+        if (name && email && password && userRole) {
+            try {
+                setLoadingCreatingUser(true);
+                setErrorCreatingUser(false);
                 const response = await fetch(`${API_URL}/user`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
                         Authorization: `Bearer ${window.localStorage.getItem("token")}`,
                     },
-					body: JSON.stringify({
-						name,
-						email,
-						password,
-						role: userRole
-					})
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        password,
+                        role: userRole,
+                    }),
                 });
 
                 const { success, message } = await response.json();
                 if (success) {
-					setCreatedUser(true)
+                    setCreatedUser(true);
+                } else if (message) {
+                    setErrorCreatingUser(true);
+                    setErrorAPI(message);
                 }
-				else if(message) {
-					setErrorCreatingUser(true)
-					setErrorAPI(message)
-				}
             } catch (error: any) {
-				setCreatedUser(false)
-				setErrorCreatingUser(true)
-				setErrorAPI(error.message)
+                setCreatedUser(false);
+                setErrorCreatingUser(true);
+                setErrorAPI(error.message);
                 console.error("Error creating user: ", error);
             } finally {
-				setLoadingCreatingUser(false)
-			}
-		}
+                setLoadingCreatingUser(false);
+            }
+        }
     }
 
-	useEffect(() => {
+    useEffect(() => {
         if (createdUser) {
-            setName('');
-            setEmail('');
-            setPassword('');
-            setUserRole('');
+            setName("");
+            setEmail("");
+            setPassword("");
+            setUserRole("");
         }
     }, [createdUser]);
 
@@ -305,38 +306,15 @@ export default function Users() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {usersFound?.length === 0 &&
-                                        users?.map((user) => (
-                                            <tr key={user.id} className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                                <th
-                                                    scope="row"
-                                                    className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                                >
-                                                    {user.id}
-                                                </th>
-                                                <td className="px-4 py-3">{user.email}</td>
-                                                <td className="px-4 py-3">{user.role}</td>
-                                                <td className="px-4 py-3">{user.created_at}</td>
-                                                <td className="px-4 py-3">{user.updated_at}</td>
-                                            </tr>
-                                        ))}
+                                    {!userSearchedById &&
+                                        users?.map(user => (
+											<UserTableRow user={user} />
+                                    	)
+									)}
 
-                                    {usersFound?.map((user) => (
-                                        <tr key={user.id} className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                            <th
-                                                scope="row"
-                                                className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                            >
-                                                {user?.id}
-                                            </th>
-                                            <td className="px-4 py-3">{user.email}</td>
-                                            <td className="px-4 py-3">{user.role}</td>
-                                            <td className="px-4 py-3">{user.created_at}</td>
-                                            <td className="px-4 py-3">{user.updated_at}</td>
-                                            <td className="px-4 py-3">Edit</td>
-                                            <td className="px-4 py-3">Delete</td>
-                                        </tr>
-                                    ))}
+                                    {userSearchedById && (
+                                        <UserTableRow user={userSearchedById} />
+                                    )}
                                 </tbody>
                             </table>
                         </div>
@@ -368,8 +346,8 @@ export default function Users() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit user name"
                                         required
-										value={name}
-										onChange={(e) => setName(e.target.value)}
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -386,8 +364,8 @@ export default function Users() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit user email"
                                         required
-										value={email}
-										onChange={(e) => setEmail(e.target.value)}
+                                        value={email}
+                                        onChange={(e) => setEmail(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -404,8 +382,8 @@ export default function Users() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit user password"
                                         required
-										value={password}
-										onChange={(e) => setPassword(e.target.value)}
+                                        value={password}
+                                        onChange={(e) => setPassword(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -418,23 +396,26 @@ export default function Users() {
                                     <select
                                         id="category"
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
-										onChange={handleUserRoleChange}
+                                        onChange={handleUserRoleChange}
                                     >
                                         <option defaultValue={"COMMON"}>Select role</option>
                                         <option value="COMMON">COMMON</option>
                                         <option value="MANAGER">MANAGER</option>
                                         <option value="AFFILIATE">AFFILIATE</option>
-
                                     </select>
                                 </div>
                             </div>
 
-							{loadingCreatingUser ? <Button disabled={true}>Processing...</Button> : <Button>Add New User</Button>}
+                            {loadingCreatingUser ? (
+                                <Button disabled={true}>Processing...</Button>
+                            ) : (
+                                <Button>Add New User</Button>
+                            )}
 
-                			<ErrorAlertMessage message={errorCreatingUser && errorAPI } />
+                            <ErrorAlertMessage message={errorCreatingUser && errorAPI} />
 
-							<SuccessAlertMessage message={createdUser && `User Created!`} />
-                        </form>
+                            <SuccessAlertMessage message={createdUser && `User Created!`} />
+                         </form>
                     </div>
                 </div>
             </div>

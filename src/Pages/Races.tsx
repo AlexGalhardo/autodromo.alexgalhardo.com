@@ -4,8 +4,9 @@ import { useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { API_URL } from "../Utils/Envs";
+import RaceTableRow from "../Components/TableRow/RaceTableRow";
 
-interface Race {
+export interface Race {
     id: string;
     user_id: string;
     status: string;
@@ -16,7 +17,7 @@ interface Race {
 export default function Races() {
     const { login } = useGlobalState();
     const [races, setRaces] = useState<Race[] | null>([]);
-    const [racesFound, setRacesFound] = useState<Race[] | null>([]);
+    const [raceSearchedById, setRaceSearchedById] = useState<Race | null>(null);
 
     useEffect(() => {
         const fetchRaces = async () => {
@@ -44,16 +45,16 @@ export default function Races() {
     const handleSearchRaceId = (e: any) => {
         const raceId = e.target.value;
 
-        if (raceId.trim() !== "" && raceId.length > 2) {
-            const racesFiltered = races?.filter((race) => race.id === raceId);
+        if (raceId.trim() !== "" && raceId.length) {
+            const raceFoundById = races?.filter((race) => race.id === raceId);
 
-            if (racesFiltered?.length) {
-                setRacesFound(racesFiltered);
+            if (raceFoundById) {
+                setRaceSearchedById(raceFoundById[0]);
             } else {
-                setRacesFound([]);
+                setRaceSearchedById(null);
             }
         } else {
-            setRacesFound([]);
+            setRaceSearchedById(null);
         }
     };
 
@@ -211,43 +212,15 @@ export default function Races() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {racesFound?.length === 0 &&
-                                        races?.map((race) => (
-                                            <tr
-                                                key={race.id}
-                                                className="border-b dark:border-gray-700 hover:bg-gray-300"
-                                            >
-                                                <th
-                                                    scope="row"
-                                                    className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                                >
-                                                    {race?.id}
-                                                </th>
-                                                <td className="px-4 py-3">{race?.user_id}</td>
-                                                <td className="px-4 py-3">{race?.status}</td>
-                                                <td className="px-4 py-3">{race?.starts_at}</td>
-                                                <td className="px-4 py-3">{race?.ends_at ?? "TO BE DEFINED"}</td>
-                                                <td className="px-4 py-3">Edit</td>
-                                                <td className="px-4 py-3">Delete</td>
-                                            </tr>
-                                        ))}
+                                    {!raceSearchedById &&
+                                        races?.map(race => (
+                                            <RaceTableRow race={race} />
+                                        )
+									)}
 
-                                    {racesFound?.map((race) => (
-                                        <tr key={race.id} className="border-b dark:border-gray-700 hover:bg-gray-300">
-                                            <th
-                                                scope="row"
-                                                className="px-4 py-3 font-medium text-gray-900 whitespace-nowrap dark:text-white"
-                                            >
-                                                {race?.id}
-                                            </th>
-                                            <td className="px-4 py-3">{race?.user_id}</td>
-                                            <td className="px-4 py-3">{race?.status}</td>
-                                            <td className="px-4 py-3">{race?.starts_at}</td>
-                                            <td className="px-4 py-3">{race?.ends_at ?? "TO BE DEFINED"}</td>
-                                            <td className="px-4 py-3">Edit</td>
-                                            <td className="px-4 py-3">Delete</td>
-                                        </tr>
-                                    ))}
+                                    {raceSearchedById &&  (
+                                        <RaceTableRow race={raceSearchedById} />
+                                    )}
                                 </tbody>
                             </table>
                         </div>
