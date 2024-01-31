@@ -19,33 +19,33 @@ export default function UserTableRow({
                 </a>
             </td> */}
             <td className="px-4 py-3">
-				<button
-					className="text-red-500 hover:text-red-700"
-					onClick={() => {
-						const confirmed = window.confirm("Are you sure you want to delete this user?");
-						if (confirmed) {
-							fetch(`${API_URL}/user/${id}`, {
-								method: 'DELETE',
-								headers: {
-									"Content-Type": "application/json",
-									Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-								},
-							})
-							.then(response => {
-								if(response.ok) {
-									alert('User deleted!')
-									window.location.reload();
-								}
-								if(!response.ok) alert('Failed to delete user');
-							})
-							.catch(error => {
-								alert('Failed to delete user');
-							});
-						}
-					}}
-					>
-					Delete
-				</button>
+                <button
+                    className="text-red-500 hover:text-red-700"
+                    onClick={() => {
+                        const confirmed = window.confirm("Are you sure you want to delete this user?");
+                        if (confirmed) {
+                            fetch(`${API_URL}/user/${id}`, {
+                                method: "DELETE",
+                                headers: {
+                                    "Content-Type": "application/json",
+                                    Authorization: `Bearer ${window.localStorage.getItem("token")}`,
+                                },
+                            })
+                                .then((response) => {
+                                    if (response.ok) {
+                                        alert("User deleted!");
+                                        window.location.reload();
+                                    }
+                                    if (!response.ok) alert("Failed to delete user");
+                                })
+                                .catch((error) => {
+                                    alert("Failed to delete user");
+                                });
+                        }
+                    }}
+                >
+                    Delete
+                </button>
             </td>
         </tr>
     );

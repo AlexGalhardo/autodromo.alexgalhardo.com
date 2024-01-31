@@ -1,14 +1,16 @@
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
-import { useGlobalState } from "../Context/GlobalStateContext";
+import { UserRole, useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
 
 export default function Maintenances() {
-    const { login } = useGlobalState();
+    const { login, user } = useGlobalState();
 
     if (login === false) {
         return <Navigate to="/login" />;
     }
+
+	if(user?.role !== UserRole.MANAGER) return <Navigate to="/races/history" />;
 
     return (
         <>

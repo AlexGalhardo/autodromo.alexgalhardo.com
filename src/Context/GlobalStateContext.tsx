@@ -200,7 +200,8 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
                 }
                 window.localStorage.setItem("token", json.jwt_token);
                 await getUser(json.jwt_token);
-                navigate("/");
+				if(user?.role !== UserRole.MANAGER) navigate("/races/history")
+				else navigate("/");
             }
         } catch (err: any) {
             setError(err.message);

@@ -1,6 +1,6 @@
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
-import { useGlobalState } from "../Context/GlobalStateContext";
+import { UserRole, useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
 import SuccessAlertMessage from "../Components/Alerts/SuccessAlertMessage";
 import ErrorAlertMessage from "../Components/Alerts/ErrorAlertMessage";
@@ -21,7 +21,7 @@ export interface Schedule {
 }
 
 export default function Schedules() {
-    const { login } = useGlobalState();
+    const { login, user } = useGlobalState();
 
     const [schedules, setSchedules] = useState<Schedule[] | null>([]);
     const [scheduleSearchedById, setScheduleSearchedById] = useState<Schedule | null>(null);
@@ -126,6 +126,8 @@ export default function Schedules() {
     if (login === false) {
         return <Navigate to="/login" />;
     }
+
+	if(user?.role === UserRole.COMMON) return <Navigate to="/races/history" />;
 
     return (
         <>

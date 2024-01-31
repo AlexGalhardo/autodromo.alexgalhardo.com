@@ -1,6 +1,6 @@
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
-import { useGlobalState } from "../Context/GlobalStateContext";
+import { UserRole, useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { API_URL } from "../Utils/Envs";
@@ -21,7 +21,7 @@ export interface Road {
 }
 
 export default function Roads() {
-    const { login } = useGlobalState();
+    const { login, user } = useGlobalState();
 
     const [roads, setRoads] = useState<Road[] | null>([]);
     const [roadSearchedById, setRoadSearchedById] = useState<Road | null>(null);
@@ -129,6 +129,8 @@ export default function Roads() {
     if (login === false) {
         return <Navigate to="/login" />;
     }
+
+	if(user?.role !== UserRole.MANAGER) return <Navigate to="/races/history" />;
 
     return (
         <>

@@ -1,6 +1,6 @@
 import Sidebar from "../Components/Sidebar";
 import Navbar from "../Components/Navbar";
-import { useGlobalState } from "../Context/GlobalStateContext";
+import { UserRole, useGlobalState } from "../Context/GlobalStateContext";
 import { Navigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { API_URL } from "../Utils/Envs";
@@ -28,7 +28,7 @@ export interface Kart {
 }
 
 export default function Karts() {
-    const { login } = useGlobalState();
+    const { login, user } = useGlobalState();
 
     const [karts, setKarts] = useState<Kart[] | null>([]);
     const [kartSearchedById, setKartSearchedById] = useState<Kart | null>(null);
@@ -134,6 +134,8 @@ export default function Karts() {
     if (login === false) {
         return <Navigate to="/login" />;
     }
+
+	if(user?.role !== UserRole.MANAGER) return <Navigate to="/races/history" />;
 
     return (
         <>
