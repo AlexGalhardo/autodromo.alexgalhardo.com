@@ -212,15 +212,9 @@ export default function Races() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {!raceSearchedById &&
-                                        races?.map(race => (
-                                            <RaceTableRow race={race} />
-                                        )
-									)}
+                                    {!raceSearchedById && races?.map((race) => <RaceTableRow race={race} />)}
 
-                                    {raceSearchedById &&  (
-                                        <RaceTableRow race={raceSearchedById} />
-                                    )}
+                                    {raceSearchedById && <RaceTableRow race={raceSearchedById} />}
                                 </tbody>
                             </table>
                         </div>

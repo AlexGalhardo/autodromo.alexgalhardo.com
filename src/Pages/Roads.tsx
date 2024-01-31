@@ -10,34 +10,34 @@ import SuccessAlertMessage from "../Components/Alerts/SuccessAlertMessage";
 import RoadTableRow from "../Components/TableRow/RoadTableRow";
 
 export interface Road {
-	id: string
-	name: string
-	kilometers: number
-	quantity_boxes: number
-	quantity_places: number
-	address: string
-	created_at: string
-	updated_at: string
+    id: string;
+    name: string;
+    kilometers: number;
+    quantity_boxes: number;
+    quantity_places: number;
+    address: string;
+    created_at: string;
+    updated_at: string;
 }
 
 export default function Roads() {
     const { login } = useGlobalState();
 
-	const [roads, setRoads] = useState<Road[] | null>([]);
-	const [roadSearchedById, setRoadSearchedById] = useState<Road | null>(null);
+    const [roads, setRoads] = useState<Road[] | null>([]);
+    const [roadSearchedById, setRoadSearchedById] = useState<Road | null>(null);
 
-	const [name, setName] = useState<string>("");
+    const [name, setName] = useState<string>("");
     const [kilometers, setKilometers] = useState<number>(0);
     const [quantity_boxes, setQuantityBoxes] = useState<number>(0);
-    const [quantity_places, setQuantityPlaces] = useState<number>(0)
-	const [address, setAddress] = useState<string>("");
+    const [quantity_places, setQuantityPlaces] = useState<number>(0);
+    const [address, setAddress] = useState<string>("");
 
-	const [loadingCreatingRoad, setLoadingCreatingRoad] = useState<boolean>(false);
-	const [errorCreatingRoad, setErrorCreatingRoad] = useState<boolean>(false);
+    const [loadingCreatingRoad, setLoadingCreatingRoad] = useState<boolean>(false);
+    const [errorCreatingRoad, setErrorCreatingRoad] = useState<boolean>(false);
     const [createdRoad, setCreatedRoad] = useState<boolean>(false);
     const [errorAPI, setErrorAPI] = useState<string>("");
 
-	useEffect(() => {
+    useEffect(() => {
         const fetchRoads = async () => {
             try {
                 const response = await fetch(`${API_URL}/road/all`, {
@@ -94,7 +94,7 @@ export default function Roads() {
                         kilometers,
                         quantity_boxes,
                         quantity_places,
-						address
+                        address,
                     }),
                 });
 
@@ -122,7 +122,7 @@ export default function Roads() {
             setKilometers(0);
             setQuantityBoxes(0);
             setQuantityPlaces(0);
-			setAddress("");
+            setAddress("");
         }
     }, [createdRoad]);
 
@@ -162,7 +162,7 @@ export default function Roads() {
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search Road ID"
                                             required
-											onChange={handleSearchRoadId}
+                                            onChange={handleSearchRoadId}
                                         />
                                     </div>
                                 </form>
@@ -305,15 +305,9 @@ export default function Roads() {
                                     </tr>
                                 </thead>
                                 <tbody>
-									{!roadSearchedById &&
-                                        roads?.map(road => (
-											<RoadTableRow road={road} />
-										)
-									)}
+                                    {!roadSearchedById && roads?.map((road) => <RoadTableRow road={road} />)}
 
-									{roadSearchedById && (
-										<RoadTableRow road={roadSearchedById} />
-									)}
+                                    {roadSearchedById && <RoadTableRow road={roadSearchedById} />}
                                 </tbody>
                             </table>
                         </div>
@@ -345,8 +339,8 @@ export default function Roads() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road name"
                                         required
-										value={name}
-										onChange={(e) => setName(e.target.value)}
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -366,8 +360,8 @@ export default function Roads() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Total road kilometers"
                                         required
-										value={kilometers}
-										onChange={(e) => setKilometers(Number(e.target.value))}
+                                        value={kilometers}
+                                        onChange={(e) => setKilometers(Number(e.target.value))}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -387,8 +381,8 @@ export default function Roads() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road quantity boxes"
                                         required
-										value={quantity_boxes}
-										onChange={(e) => setQuantityBoxes(Number(e.target.value))}
+                                        value={quantity_boxes}
+                                        onChange={(e) => setQuantityBoxes(Number(e.target.value))}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -408,8 +402,8 @@ export default function Roads() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road quantitty places"
                                         required
-										value={quantity_places}
-										onChange={(e) => setQuantityPlaces(Number(e.target.value))}
+                                        value={quantity_places}
+                                        onChange={(e) => setQuantityPlaces(Number(e.target.value))}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -426,8 +420,8 @@ export default function Roads() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road address"
                                         required
-										value={address}
-										onChange={(e) => setAddress(e.target.value)}
+                                        value={address}
+                                        onChange={(e) => setAddress(e.target.value)}
                                     />
                                 </div>
                             </div>

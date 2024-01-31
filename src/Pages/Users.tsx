@@ -34,7 +34,7 @@ export default function Users() {
     const [password, setPassword] = useState<string>("");
     const [userRole, setUserRole] = useState("COMMON");
 
-	const [loadingCreatingUser, setLoadingCreatingUser] = useState<boolean>(false);
+    const [loadingCreatingUser, setLoadingCreatingUser] = useState<boolean>(false);
     const [errorCreatingUser, setErrorCreatingUser] = useState<boolean>(false);
     const [createdUser, setCreatedUser] = useState<boolean>(false);
     const [errorAPI, setErrorAPI] = useState<string>("");
@@ -306,15 +306,9 @@ export default function Users() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {!userSearchedById &&
-                                        users?.map(user => (
-											<UserTableRow user={user} />
-                                    	)
-									)}
+                                    {!userSearchedById && users?.map((user) => <UserTableRow user={user} />)}
 
-                                    {userSearchedById && (
-                                        <UserTableRow user={userSearchedById} />
-                                    )}
+                                    {userSearchedById && <UserTableRow user={userSearchedById} />}
                                 </tbody>
                             </table>
                         </div>
@@ -415,7 +409,7 @@ export default function Users() {
                             <ErrorAlertMessage message={errorCreatingUser && errorAPI} />
 
                             <SuccessAlertMessage message={createdUser && `User Created!`} />
-                         </form>
+                        </form>
                     </div>
                 </div>
             </div>

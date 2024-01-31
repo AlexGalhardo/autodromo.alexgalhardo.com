@@ -10,12 +10,12 @@ import { API_URL } from "../Utils/Envs";
 import ScheduleTableRow from "../Components/TableRow/ScheduleTableRow";
 
 export interface Schedule {
-	id: string;
+    id: string;
     user_id: string;
     kart_id: string;
     road_id: string;
-	starts_at: string;
-	ends_at: string;
+    starts_at: string;
+    ends_at: string;
     created_at: string;
     updated_at: string;
 }
@@ -23,20 +23,20 @@ export interface Schedule {
 export default function Schedules() {
     const { login } = useGlobalState();
 
-	const [schedules, setSchedules] = useState<Schedule[] | null>([]);
-	const [scheduleSearchedById, setScheduleSearchedById] = useState<Schedule | null>(null);
+    const [schedules, setSchedules] = useState<Schedule[] | null>([]);
+    const [scheduleSearchedById, setScheduleSearchedById] = useState<Schedule | null>(null);
 
-	const [kart_id, setKartId] = useState<string>("");
+    const [kart_id, setKartId] = useState<string>("");
     const [road_id, setRoadId] = useState<string>("");
     const [starts_at, setStartsAt] = useState<string>("");
     const [ends_at, setEndsAt] = useState<string>("");
 
-	const [loadingCreatingSchedule, setLoadingCreatingSchedule] = useState<boolean>(false);
-	const [errorCreatingSchedule, setErrorCreatingSchedule] = useState<boolean>(false);
+    const [loadingCreatingSchedule, setLoadingCreatingSchedule] = useState<boolean>(false);
+    const [errorCreatingSchedule, setErrorCreatingSchedule] = useState<boolean>(false);
     const [createdSchedule, setCreatedSchedule] = useState<boolean>(false);
     const [errorAPI, setErrorAPI] = useState<string>("");
 
-	useEffect(() => {
+    useEffect(() => {
         const fetchSchedules = async () => {
             try {
                 const response = await fetch(`${API_URL}/schedule/all`, {
@@ -123,7 +123,7 @@ export default function Schedules() {
         }
     }, [createdSchedule]);
 
-	if (login === false) {
+    if (login === false) {
         return <Navigate to="/login" />;
     }
 
@@ -158,7 +158,7 @@ export default function Schedules() {
                                             id="simple-search"
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search Schedule ID"
-											onChange={handleSearchScheduleId}
+                                            onChange={handleSearchScheduleId}
                                             required
                                         />
                                     </div>
@@ -302,15 +302,10 @@ export default function Schedules() {
                                     </tr>
                                 </thead>
                                 <tbody>
-									{!scheduleSearchedById &&
-                                        schedules?.map(schedule => (
-											<ScheduleTableRow schedule={schedule} />
-										)
-									)}
+                                    {!scheduleSearchedById &&
+                                        schedules?.map((schedule) => <ScheduleTableRow schedule={schedule} />)}
 
-									{scheduleSearchedById && (
-										<ScheduleTableRow schedule={scheduleSearchedById} />
-									)}
+                                    {scheduleSearchedById && <ScheduleTableRow schedule={scheduleSearchedById} />}
                                 </tbody>
                             </table>
                         </div>
@@ -342,8 +337,8 @@ export default function Schedules() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road ID"
                                         required
-										value={road_id}
-										onChange={(e) => setRoadId(e.target.value)}
+                                        value={road_id}
+                                        onChange={(e) => setRoadId(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -360,8 +355,8 @@ export default function Schedules() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit kart id"
                                         required
-										value={kart_id}
-										onChange={(e) => setKartId(e.target.value)}
+                                        value={kart_id}
+                                        onChange={(e) => setKartId(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -378,8 +373,8 @@ export default function Schedules() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Example: 28/01/2024 16:00"
                                         required
-										value={starts_at}
-										onChange={(e) => setStartsAt(e.target.value)}
+                                        value={starts_at}
+                                        onChange={(e) => setStartsAt(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -396,13 +391,13 @@ export default function Schedules() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Example: 28/01/2024 17:00"
                                         required
-										value={ends_at}
-										onChange={(e) => setEndsAt(e.target.value)}
+                                        value={ends_at}
+                                        onChange={(e) => setEndsAt(e.target.value)}
                                     />
                                 </div>
                             </div>
 
-							{loadingCreatingSchedule ? (
+                            {loadingCreatingSchedule ? (
                                 <Button disabled={true}>Processing...</Button>
                             ) : (
                                 <Button>Add New Schedule</Button>

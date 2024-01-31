@@ -10,41 +10,41 @@ import SuccessAlertMessage from "../Components/Alerts/SuccessAlertMessage";
 import KartTableRow from "../Components/TableRow/KartTableRow";
 
 export enum KartStatus {
-	LEASED = "LEASED",
-  	IN_MAINTENANCE = "IN_MAINTENANCE",
-  	AVAILABLE = "AVAILABLE"
+    LEASED = "LEASED",
+    IN_MAINTENANCE = "IN_MAINTENANCE",
+    AVAILABLE = "AVAILABLE",
 }
 
 export interface Kart {
-	id: string;
+    id: string;
     status: KartStatus;
     name: string;
     brand: string;
-	model: string;
-	power: string;
+    model: string;
+    power: string;
     tire_brand: string;
-	created_at: string;
+    created_at: string;
     updated_at: string;
 }
 
 export default function Karts() {
     const { login } = useGlobalState();
 
-	const [karts, setKarts] = useState<Kart[] | null>([]);
-	const [kartSearchedById, setKartSearchedById] = useState<Kart | null>(null);
+    const [karts, setKarts] = useState<Kart[] | null>([]);
+    const [kartSearchedById, setKartSearchedById] = useState<Kart | null>(null);
 
-	const [name, setName] = useState<string>("");
+    const [name, setName] = useState<string>("");
     const [brand, setBrand] = useState<string>("");
     const [model, setModel] = useState<string>("");
-    const [power, setPower] = useState<number>(0)
-	const [tire_brand, setTireBrand] = useState<string>("");
+    const [power, setPower] = useState<number>(0);
+    const [tire_brand, setTireBrand] = useState<string>("");
 
-	const [loadingCreatingKart, setLoadingCreatingKart] = useState<boolean>(false);
-	const [errorCreatingRoad, setErrorCreatingKart] = useState<boolean>(false);
+    const [loadingCreatingKart, setLoadingCreatingKart] = useState<boolean>(false);
+    const [errorCreatingRoad, setErrorCreatingKart] = useState<boolean>(false);
     const [createdKart, setCreatedKart] = useState<boolean>(false);
     const [errorAPI, setErrorAPI] = useState<string>("");
 
-	useEffect(() => {
+    useEffect(() => {
         const fetchKarts = async () => {
             try {
                 const response = await fetch(`${API_URL}/kart/all`, {
@@ -99,7 +99,7 @@ export default function Karts() {
                         brand,
                         model,
                         power,
-						tire_brand
+                        tire_brand,
                     }),
                 });
 
@@ -126,8 +126,8 @@ export default function Karts() {
             setName("");
             setBrand("");
             setModel("");
-			setPower(0);
-			setTireBrand("");
+            setPower(0);
+            setTireBrand("");
         }
     }, [createdKart]);
 
@@ -167,7 +167,7 @@ export default function Karts() {
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search Kart ID"
                                             required
-											onChange={handleSearchKartId}
+                                            onChange={handleSearchKartId}
                                         />
                                     </div>
                                 </form>
@@ -313,15 +313,9 @@ export default function Karts() {
                                     </tr>
                                 </thead>
                                 <tbody>
-									{!kartSearchedById &&
-                                        karts?.map(kart => (
-											<KartTableRow kart={kart} />
-										)
-									)}
+                                    {!kartSearchedById && karts?.map((kart) => <KartTableRow kart={kart} />)}
 
-									{kartSearchedById && (
-										<KartTableRow kart={kartSearchedById} />
-									)}
+                                    {kartSearchedById && <KartTableRow kart={kartSearchedById} />}
                                 </tbody>
                             </table>
                         </div>
@@ -353,8 +347,8 @@ export default function Karts() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit kart name"
                                         required
-										value={name}
-										onChange={(e) => setName(e.target.value)}
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -371,8 +365,8 @@ export default function Karts() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit kart brand"
                                         required
-										value={brand}
-										onChange={(e) => setBrand(e.target.value)}
+                                        value={brand}
+                                        onChange={(e) => setBrand(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -389,8 +383,8 @@ export default function Karts() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit kart model"
                                         required
-										value={model}
-										onChange={(e) => setModel(e.target.value)}
+                                        value={model}
+                                        onChange={(e) => setModel(e.target.value)}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -410,8 +404,8 @@ export default function Karts() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit kart power"
                                         required
-										value={power}
-										onChange={(e) => setPower(Number(e.target.value))}
+                                        value={power}
+                                        onChange={(e) => setPower(Number(e.target.value))}
                                     />
                                 </div>
                                 <div className="col-span-2">
@@ -428,8 +422,8 @@ export default function Karts() {
                                         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                         placeholder="Digit road address"
                                         required
-										value={tire_brand}
-										onChange={(e) => setTireBrand(e.target.value)}
+                                        value={tire_brand}
+                                        onChange={(e) => setTireBrand(e.target.value)}
                                     />
                                 </div>
                             </div>
