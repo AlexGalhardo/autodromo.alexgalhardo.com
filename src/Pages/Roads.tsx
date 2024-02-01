@@ -51,7 +51,7 @@ export default function Roads() {
                 const { data } = await response.json();
                 if (data) {
                     setRoads(data);
-					setTotalRoads(data.length)
+                    setTotalRoads(data.length);
                 }
             } catch (error: any) {
                 console.error("Error fetching roads: ", error);

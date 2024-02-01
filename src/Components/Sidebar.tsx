@@ -2,7 +2,17 @@ import { useLocation } from "react-router-dom";
 import { UserRole, useGlobalState } from "../Context/GlobalStateContext";
 
 export default function Sidebar() {
-    const { user, totalNotifications, totalKarts, totalRaces, totalUsers, totalRoads, totalRacesHistory, totalMaintenances, totalSchedules } = useGlobalState();
+    const {
+        user,
+        totalNotifications,
+        totalKarts,
+        totalRaces,
+        totalUsers,
+        totalRoads,
+        totalRacesHistory,
+        totalMaintenances,
+        totalSchedules,
+    } = useGlobalState();
     const location = useLocation();
 
     return (

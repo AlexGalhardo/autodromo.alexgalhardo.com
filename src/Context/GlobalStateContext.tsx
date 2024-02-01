@@ -27,31 +27,31 @@ interface GlobalStateContextPort {
     login: null | boolean;
     apiRequestError: string | undefined;
 
-	setTotalNotifications: any;
-	totalNotifications: number;
+    setTotalNotifications: any;
+    totalNotifications: number;
 
-	setTotalRaces: any;
-	totalRaces: number;
+    setTotalRaces: any;
+    totalRaces: number;
 
-	setTotalUsers: any;
-	totalUsers: number;
+    setTotalUsers: any;
+    totalUsers: number;
 
-	setTotalMaintenances: any;
-	totalMaintenances: number;
+    setTotalMaintenances: any;
+    totalMaintenances: number;
 
-	setTotalSchedules: any;
-	totalSchedules: number;
+    setTotalSchedules: any;
+    totalSchedules: number;
 
-	setTotalRoads: any;
-	totalRoads: number;
+    setTotalRoads: any;
+    totalRoads: number;
 
-	setTotalKarts: any;
-	totalKarts: number;
+    setTotalKarts: any;
+    totalKarts: number;
 
-	setTotalRacesHistory: any;
-	totalRacesHistory: number;
+    setTotalRacesHistory: any;
+    totalRacesHistory: number;
 
-	userLogin: (username: string, password: string) => Promise<Element | undefined>;
+    userLogin: (username: string, password: string) => Promise<Element | undefined>;
     userLogout: () => Promise<void>;
     getUser: (token: string) => Promise<void>;
 }
@@ -64,14 +64,14 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<null | string>(null);
     const [apiRequestError, setAPIRequestError] = useState<string | undefined>(undefined);
-	const [totalNotifications, setTotalNotifications] = useState<number>(0);
-	const [totalRaces, setTotalRaces] = useState<number>(0);
-	const [totalUsers, setTotalUsers] = useState<number>(0);
-	const [totalMaintenances, setTotalMaintenances] = useState<number>(0);
-	const [totalSchedules, setTotalSchedules] = useState<number>(0);
-	const [totalKarts, setTotalKarts] = useState<number>(0);
-	const [totalRoads, setTotalRoads] = useState<number>(0);
-	const [totalRacesHistory, setTotalRacesHistory] = useState<number>(0);
+    const [totalNotifications, setTotalNotifications] = useState<number>(0);
+    const [totalRaces, setTotalRaces] = useState<number>(0);
+    const [totalUsers, setTotalUsers] = useState<number>(0);
+    const [totalMaintenances, setTotalMaintenances] = useState<number>(0);
+    const [totalSchedules, setTotalSchedules] = useState<number>(0);
+    const [totalKarts, setTotalKarts] = useState<number>(0);
+    const [totalRoads, setTotalRoads] = useState<number>(0);
+    const [totalRacesHistory, setTotalRacesHistory] = useState<number>(0);
     const navigate = useNavigate();
 
     const userLogout = useCallback(async function () {
@@ -83,40 +83,39 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
     }, []);
 
     async function getUser(jwtToken: string) {
-		try {
-			console.log('\n\n entrou jwtToken => ', jwtToken)
+        try {
+            console.log("\n\n entrou jwtToken => ", jwtToken);
 
-			const response = await fetch(`${API_URL}/user/check-logged-in`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-					Authorization: `Bearer ${jwtToken}`,
-				},
-			});
+            const response = await fetch(`${API_URL}/user/check-logged-in`, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${jwtToken}`,
+                },
+            });
 
-			const {
-				data: { id, role, role_token, name, email, password, jwt_token, created_at, updated_at },
-			} = await response.json();
+            const {
+                data: { id, role, role_token, name, email, password, jwt_token, created_at, updated_at },
+            } = await response.json();
 
-			setUser({
-				id,
-				role,
-				role_token,
-				name,
-				email,
-				password,
-				jwt_token,
-				created_at,
-				updated_at,
-			});
+            setUser({
+                id,
+                role,
+                role_token,
+                name,
+                email,
+                password,
+                jwt_token,
+                created_at,
+                updated_at,
+            });
 
-			console.log('\n\n user é => ', user)
+            console.log("\n\n user é => ", user);
 
-			setLoggedIn(true);
-		}
-        catch(error){
-			setLoggedIn(false)
-		}
+            setLoggedIn(true);
+        } catch (error) {
+            setLoggedIn(false);
+        }
     }
 
     async function userLogin(email: string, password: string): Promise<any> {
@@ -193,22 +192,22 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
                 login,
                 getUser,
                 apiRequestError,
-				totalNotifications,
-				setTotalNotifications,
-				setTotalRaces,
-				totalRaces,
-				setTotalUsers,
-				totalUsers,
-				setTotalMaintenances,
-				totalMaintenances,
-				setTotalSchedules,
-				totalSchedules,
-				setTotalRoads,
-				totalRoads,
-				setTotalKarts,
-				totalKarts,
-				setTotalRacesHistory,
-				totalRacesHistory,
+                totalNotifications,
+                setTotalNotifications,
+                setTotalRaces,
+                totalRaces,
+                setTotalUsers,
+                totalUsers,
+                setTotalMaintenances,
+                totalMaintenances,
+                setTotalSchedules,
+                totalSchedules,
+                setTotalRoads,
+                totalRoads,
+                setTotalKarts,
+                totalKarts,
+                setTotalRacesHistory,
+                totalRacesHistory,
             }}
         >
             {children}

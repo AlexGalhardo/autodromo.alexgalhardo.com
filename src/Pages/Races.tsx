@@ -33,7 +33,7 @@ export default function Races() {
                 const { data } = await response.json();
                 if (data) {
                     setRaces(data);
-					setTotalRaces(data.length)
+                    setTotalRaces(data.length);
                 }
             } catch (error) {
                 console.error("Error fetching races: ", error);

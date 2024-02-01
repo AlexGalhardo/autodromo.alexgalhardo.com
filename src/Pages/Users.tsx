@@ -53,7 +53,7 @@ export default function Users() {
                 const { data } = await response.json();
                 if (data) {
                     setUsers(data);
-					setTotalUsers(data.length)
+                    setTotalUsers(data.length);
                 }
             } catch (error: any) {
                 console.error("Error fetching users: ", error);
@@ -135,7 +135,7 @@ export default function Users() {
         return <Navigate to="/login" />;
     }
 
-    if (user?.role !== UserRole.MANAGER) alert(user?.role)// return <Navigate to="/races/history" />;
+    if (user?.role !== UserRole.MANAGER) alert(user?.role); // return <Navigate to="/races/history" />;
 
     return (
         <>

@@ -27,7 +27,7 @@ export default function RacesHistory() {
                 const { data } = await response.json();
                 if (data) {
                     setRacesHistory(data);
-					setTotalRacesHistory(data.length)
+                    setTotalRacesHistory(data.length);
                 }
             } catch (error) {
                 console.error("Error fetching races history: ", error);

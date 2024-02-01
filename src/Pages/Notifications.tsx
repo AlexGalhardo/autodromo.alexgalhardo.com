@@ -37,7 +37,7 @@ export default function Notifications() {
                 const { data } = await response.json();
                 if (data) {
                     setNotifications(data);
-					setTotalNotifications(data.length)
+                    setTotalNotifications(data.length);
                 }
             } catch (error) {
                 console.error("Error fetching notifications history: ", error);
@@ -139,7 +139,7 @@ export default function Notifications() {
                         <table className="w-full text-left dark:text-gray-400">
                             <thead className="text-lsx text-green uppercase dark:bg-gray-700 dark:text-gray-400">
                                 <tr>
-									<th scope="col" className="px-4 py-3">
+                                    <th scope="col" className="px-4 py-3">
                                         TYPE
                                     </th>
                                     <th scope="col" className="px-4 py-3">

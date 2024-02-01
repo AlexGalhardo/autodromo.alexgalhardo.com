@@ -50,7 +50,7 @@ export default function Schedules() {
                 const { data } = await response.json();
                 if (data) {
                     setSchedules(data);
-					setTotalSchedules(data.length);
+                    setTotalSchedules(data.length);
                 }
             } catch (error: any) {
                 console.error("Error fetching schedules: ", error);

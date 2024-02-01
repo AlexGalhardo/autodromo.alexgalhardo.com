@@ -57,9 +57,9 @@ export default function Karts() {
 
                 const { data } = await response.json();
                 if (data) {
-					setKarts(data);
-					setTotalKarts(data.length)
-				}
+                    setKarts(data);
+                    setTotalKarts(data.length);
+                }
             } catch (error: any) {
                 console.error("Error fetching karts: ", error);
             }
