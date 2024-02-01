@@ -21,7 +21,7 @@ export interface Road {
 }
 
 export default function Roads() {
-    const { login, user } = useGlobalState();
+    const { login, user, setTotalRoads } = useGlobalState();
 
     const [roads, setRoads] = useState<Road[] | null>([]);
     const [roadSearchedById, setRoadSearchedById] = useState<Road | null>(null);
@@ -51,6 +51,7 @@ export default function Roads() {
                 const { data } = await response.json();
                 if (data) {
                     setRoads(data);
+					setTotalRoads(data.length)
                 }
             } catch (error: any) {
                 console.error("Error fetching roads: ", error);

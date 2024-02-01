@@ -2,7 +2,7 @@ import { useLocation } from "react-router-dom";
 import { UserRole, useGlobalState } from "../Context/GlobalStateContext";
 
 export default function Sidebar() {
-    const { user } = useGlobalState();
+    const { user, totalNotifications, totalKarts, totalRaces, totalUsers, totalRoads, totalRacesHistory, totalMaintenances, totalSchedules } = useGlobalState();
     const location = useLocation();
 
     return (
@@ -24,9 +24,9 @@ export default function Sidebar() {
                                 >
                                     <i className="bi bi-award-fill"></i>
                                     <span className="flex-1 ms-3 whitespace-nowrap">Races</span>
-                                    <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                                        23
-                                    </span>
+                                    {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                        {totalRaces}
+                                    </span> */}
                                 </a>
                             </li>
                         )}
@@ -40,9 +40,9 @@ export default function Sidebar() {
                                 >
                                     <i className="bi bi-people-fill"></i>
                                     <span className="flex-1 ms-3 whitespace-nowrap">Users</span>
-                                    <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                                        23
-                                    </span>
+                                    {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                        {totalUsers}
+                                    </span> */}
                                 </a>
                             </li>
                         )}
@@ -56,9 +56,9 @@ export default function Sidebar() {
                                 >
                                     <i className="bi bi-tools"></i>
                                     <span className="flex-1 ms-3 whitespace-nowrap">Maintenances</span>
-                                    <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                                        23
-                                    </span>
+                                    {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                        {totalMaintenances}
+                                    </span> */}
                                 </a>
                             </li>
                         )}
@@ -72,9 +72,9 @@ export default function Sidebar() {
                                 >
                                     <i className="bi bi-calendar"></i>
                                     <span className="flex-1 ms-3 whitespace-nowrap">Schedules</span>
-                                    <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                                        23
-                                    </span>
+                                    {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                        {totalSchedules}
+                                    </span> */}
                                 </a>
                             </li>
                         )}
@@ -88,9 +88,9 @@ export default function Sidebar() {
                                 >
                                     <i className="bi bi-bezier2"></i>
                                     <span className="flex-1 ms-3 whitespace-nowrap">Roads</span>
-                                    <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                                        23
-                                    </span>
+                                    {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                        {totalRoads}
+                                    </span> */}
                                 </a>
                             </li>
                         )}
@@ -104,9 +104,9 @@ export default function Sidebar() {
                                 >
                                     <i className="bi bi-car-front"></i>
                                     <span className="flex-1 ms-3 whitespace-nowrap">Karts</span>
-                                    <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                                        23
-                                    </span>
+                                    {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                        {totalKarts}
+                                    </span> */}
                                 </a>
                             </li>
                         )}
@@ -119,9 +119,9 @@ export default function Sidebar() {
                             >
                                 <i className="bi bi-bar-chart"></i>
                                 <span className="flex-1 ms-3 whitespace-nowrap">My Races</span>
-                                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                                    23
-                                </span>
+                                {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                    {totalRacesHistory}
+                                </span> */}
                             </a>
                         </li>
 
@@ -136,9 +136,9 @@ export default function Sidebar() {
                             >
                                 <i className="bi bi-bell"></i>
                                 <span className="flex-1 ms-3 whitespace-nowrap">Notifications</span>
-                                <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
-                                    192
-                                </span>
+                                {/* <span className="inline-flex items-center justify-center px-2 ms-3 text-sm font-medium text-gray-800 bg-gray-100 rounded-full dark:bg-gray-700 dark:text-gray-300">
+                                    {totalNotifications}
+                                </span> */}
                             </a>
                         </li>
                     </ul>

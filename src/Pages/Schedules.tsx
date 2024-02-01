@@ -21,7 +21,7 @@ export interface Schedule {
 }
 
 export default function Schedules() {
-    const { login, user } = useGlobalState();
+    const { login, user, setTotalSchedules } = useGlobalState();
 
     const [schedules, setSchedules] = useState<Schedule[] | null>([]);
     const [scheduleSearchedById, setScheduleSearchedById] = useState<Schedule | null>(null);
@@ -50,6 +50,7 @@ export default function Schedules() {
                 const { data } = await response.json();
                 if (data) {
                     setSchedules(data);
+					setTotalSchedules(data.length);
                 }
             } catch (error: any) {
                 console.error("Error fetching schedules: ", error);

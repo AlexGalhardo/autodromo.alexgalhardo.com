@@ -2,12 +2,6 @@ import { createContext, useCallback, useContext, useEffect, useState } from "rea
 import { useNavigate } from "react-router-dom";
 import { API_URL } from "../Utils/Envs";
 
-export interface ProfileUpdateDTO {
-    username?: string | null;
-    newPassword?: string | null;
-    confirmNewPassword?: string | null;
-}
-
 export enum UserRole {
     MANAGER = "MANAGER",
     AFFILIATE = "AFFILIATE",
@@ -31,148 +25,98 @@ interface GlobalStateContextPort {
     loading: boolean;
     user: User | null;
     login: null | boolean;
-    updatedProfile: boolean;
-    sendRecoverPassword: boolean;
-    sendResetPassword: boolean;
     apiRequestError: string | undefined;
-    userLogin: (username: string, password: string) => Promise<Element | undefined>;
+
+	setTotalNotifications: any;
+	totalNotifications: number;
+
+	setTotalRaces: any;
+	totalRaces: number;
+
+	setTotalUsers: any;
+	totalUsers: number;
+
+	setTotalMaintenances: any;
+	totalMaintenances: number;
+
+	setTotalSchedules: any;
+	totalSchedules: number;
+
+	setTotalRoads: any;
+	totalRoads: number;
+
+	setTotalKarts: any;
+	totalKarts: number;
+
+	setTotalRacesHistory: any;
+	totalRacesHistory: number;
+
+	userLogin: (username: string, password: string) => Promise<Element | undefined>;
     userLogout: () => Promise<void>;
     getUser: (token: string) => Promise<void>;
-    userRegister: (username: string, email: string, password: string) => Promise<any>;
-    updateProfile({ username, newPassword, confirmNewPassword }: ProfileUpdateDTO): void;
-    forgetPassword: (email: string) => Promise<any>;
-    resetPassword(resetPasswordToken: string, newPassword: string, confirmNewPassword: string): Promise<any>;
-    isValidResetPasswordToken(resetPasswordToken: string): Promise<boolean>;
 }
 
 const GlobalStateContext = createContext<GlobalStateContextPort | undefined>(undefined);
 
 export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
     const [user, setUser] = useState<User | null>(null);
-    const [login, setLogin] = useState<null | boolean>(null);
+    const [login, setLoggedIn] = useState<null | boolean>(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [error, setError] = useState<null | string>(null);
-    const [sendRecoverPassword, setSendRecoverPassword] = useState<boolean>(false);
-    const [sendResetPassword, setSendResetPassword] = useState<boolean>(false);
-    const [updatedProfile, setUpdatedProfile] = useState<boolean>(false);
     const [apiRequestError, setAPIRequestError] = useState<string | undefined>(undefined);
+	const [totalNotifications, setTotalNotifications] = useState<number>(0);
+	const [totalRaces, setTotalRaces] = useState<number>(0);
+	const [totalUsers, setTotalUsers] = useState<number>(0);
+	const [totalMaintenances, setTotalMaintenances] = useState<number>(0);
+	const [totalSchedules, setTotalSchedules] = useState<number>(0);
+	const [totalKarts, setTotalKarts] = useState<number>(0);
+	const [totalRoads, setTotalRoads] = useState<number>(0);
+	const [totalRacesHistory, setTotalRacesHistory] = useState<number>(0);
     const navigate = useNavigate();
 
     const userLogout = useCallback(async function () {
         setUser(null);
         setError(null);
         setLoading(false);
-        setLogin(false);
+        setLoggedIn(false);
         window.localStorage.removeItem("token");
     }, []);
 
-    async function getUser(token: string) {
-        setLogin(true);
+    async function getUser(jwtToken: string) {
+		try {
+			console.log('\n\n entrou jwtToken => ', jwtToken)
 
-        const response = await fetch(`${API_URL}/user/check-logged-in`, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
+			const response = await fetch(`${API_URL}/user/check-logged-in`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+					Authorization: `Bearer ${jwtToken}`,
+				},
+			});
 
-        const {
-            data: { id, role, role_token, name, email, password, jwt_token, created_at, updated_at },
-        } = await response.json();
+			const {
+				data: { id, role, role_token, name, email, password, jwt_token, created_at, updated_at },
+			} = await response.json();
 
-        setUser({
-            id,
-            role,
-            role_token,
-            name,
-            email,
-            password,
-            jwt_token,
-            created_at,
-            updated_at,
-        });
-    }
+			setUser({
+				id,
+				role,
+				role_token,
+				name,
+				email,
+				password,
+				jwt_token,
+				created_at,
+				updated_at,
+			});
 
-    async function forgetPassword(email: string): Promise<any> {
-        try {
-            setError(null);
-            setLoading(true);
-            const response = await fetch(`${API_URL}/forget-password`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email,
-                }),
-            });
-            if (!response.ok) {
-                const { message } = await response.json();
-                setError(message);
-            }
-        } catch (err: any) {
-            setError(err.message);
-            setSendRecoverPassword(true);
-        } finally {
-            setSendRecoverPassword(true);
-            setLoading(false);
-        }
-    }
+			console.log('\n\n user é => ', user)
 
-    async function resetPassword(
-        resetPasswordToken: string,
-        newPassword: string,
-        confirmNewPassword: string,
-    ): Promise<any> {
-        try {
-            setError(null);
-            setLoading(true);
-            const response = await fetch(`${API_URL}/reset-password/${resetPasswordToken}`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    newPassword,
-                    confirmNewPassword,
-                }),
-            });
-            if (!response.ok) {
-                const { message } = await response.json();
-                setError(message);
-            } else {
-                setSendResetPassword(true);
-                setTimeout(() => {
-                    navigate("/");
-                }, 5000);
-            }
-        } catch (err: any) {
-            setError(err.message);
-            setSendResetPassword(true);
-        } finally {
-            setSendResetPassword(true);
-            setLoading(false);
-        }
-    }
-
-    async function isValidResetPasswordToken(resetPasswordToken: string): Promise<any> {
-        try {
-            const response = await fetch(`${API_URL}/check-reset-password-token`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    resetPasswordToken,
-                }),
-            });
-            const json = await response.json();
-            if (!json.success) navigate("/");
-        } catch (err: any) {
-            setError(err.message);
-            navigate("/");
-        }
+			setLoggedIn(true);
+		}
+        catch(error){
+			setLoggedIn(false)
+		}
     }
 
     async function userLogin(email: string, password: string): Promise<any> {
@@ -205,82 +149,7 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
             }
         } catch (err: any) {
             setError(err.message);
-            setLogin(false);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    async function updateProfile({ username, newPassword, confirmNewPassword }: ProfileUpdateDTO) {
-        try {
-            setError(null);
-            setLoading(true);
-            const response = await fetch(`${API_URL}/profile`, {
-                method: "PUT",
-                headers: {
-                    "Content-Type": "application/json",
-                    Authorization: `Bearer ${window.localStorage.getItem("token")}`,
-                },
-                body: JSON.stringify({
-                    username,
-                    newPassword,
-                    confirmNewPassword,
-                }),
-            });
-
-            if (!response.ok) {
-                const { message } = await response.json();
-                setError(message);
-                setUpdatedProfile(false);
-                setAPIRequestError(message);
-            } else {
-                const { data } = await response.json();
-                if (user) {
-                    setUser({
-                        ...user,
-                        name: data.username,
-                        password: data.password,
-                    });
-                    setUpdatedProfile(true);
-                    setAPIRequestError("");
-                }
-            }
-        } catch (error: any) {
-            setError(error.message);
-            setLoading(false);
-            setUpdatedProfile(false);
-        } finally {
-            setLoading(false);
-        }
-    }
-
-    async function userRegister(username: string, email: string, password: string): Promise<any> {
-        try {
-            setError(null);
-            setLoading(true);
-            const response = await fetch(`${API_URL}/register`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    username,
-                    email,
-                    password,
-                }),
-            });
-            if (!response.ok) {
-                const { message } = await response.json();
-                setAPIRequestError(message);
-            } else {
-                const { jwt_token } = await response.json();
-                window.localStorage.setItem("token", jwt_token);
-                await getUser(jwt_token);
-                navigate("/profile");
-            }
-        } catch (err: any) {
-            setError(err.message);
-            setLogin(false);
+            setLoggedIn(false);
         } finally {
             setLoading(false);
         }
@@ -307,7 +176,7 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
                     setLoading(false);
                 }
             } else {
-                setLogin(false);
+                setLoggedIn(false);
             }
         }
         autoLogin();
@@ -323,15 +192,23 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
                 loading,
                 login,
                 getUser,
-                userRegister,
-                sendRecoverPassword,
-                forgetPassword,
-                updateProfile,
-                updatedProfile,
-                resetPassword,
-                sendResetPassword,
-                isValidResetPasswordToken,
                 apiRequestError,
+				totalNotifications,
+				setTotalNotifications,
+				setTotalRaces,
+				totalRaces,
+				setTotalUsers,
+				totalUsers,
+				setTotalMaintenances,
+				totalMaintenances,
+				setTotalSchedules,
+				totalSchedules,
+				setTotalRoads,
+				totalRoads,
+				setTotalKarts,
+				totalKarts,
+				setTotalRacesHistory,
+				totalRacesHistory,
             }}
         >
             {children}

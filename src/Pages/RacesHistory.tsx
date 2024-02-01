@@ -8,9 +8,9 @@ import { API_URL } from "../Utils/Envs";
 import RaceTableRow from "../Components/TableRow/RaceTableRow";
 
 export default function RacesHistory() {
-    const { login } = useGlobalState();
+    const { login, setTotalRacesHistory } = useGlobalState();
 
-	const [racesHistory, setRacesHistory] = useState<Race[] | null>([]);
+    const [racesHistory, setRacesHistory] = useState<Race[] | null>([]);
     const [raceHistorySearchedById, setRaceHistorySearchedById] = useState<Race | null>(null);
 
     useEffect(() => {
@@ -27,6 +27,7 @@ export default function RacesHistory() {
                 const { data } = await response.json();
                 if (data) {
                     setRacesHistory(data);
+					setTotalRacesHistory(data.length)
                 }
             } catch (error) {
                 console.error("Error fetching races history: ", error);
@@ -88,7 +89,7 @@ export default function RacesHistory() {
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-primary-500 dark:focus:border-primary-500"
                                             placeholder="Search Race History ID"
                                             required
-											onChange={handleSearchRaceHistoryId}
+                                            onChange={handleSearchRaceHistoryId}
                                         />
                                     </div>
                                 </form>
@@ -206,7 +207,8 @@ export default function RacesHistory() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {!raceHistorySearchedById && racesHistory?.map((race) => <RaceTableRow race={race} />)}
+                                    {!raceHistorySearchedById &&
+                                        racesHistory?.map((race) => <RaceTableRow race={race} />)}
 
                                     {raceHistorySearchedById && <RaceTableRow race={raceHistorySearchedById} />}
                                 </tbody>

@@ -15,7 +15,7 @@ export interface Race {
 }
 
 export default function Races() {
-    const { login, user } = useGlobalState();
+    const { login, user, setTotalRaces } = useGlobalState();
     const [races, setRaces] = useState<Race[] | null>([]);
     const [raceSearchedById, setRaceSearchedById] = useState<Race | null>(null);
 
@@ -33,6 +33,7 @@ export default function Races() {
                 const { data } = await response.json();
                 if (data) {
                     setRaces(data);
+					setTotalRaces(data.length)
                 }
             } catch (error) {
                 console.error("Error fetching races: ", error);

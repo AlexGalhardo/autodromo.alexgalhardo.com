@@ -28,7 +28,7 @@ export interface Kart {
 }
 
 export default function Karts() {
-    const { login, user } = useGlobalState();
+    const { login, user, setTotalKarts } = useGlobalState();
 
     const [karts, setKarts] = useState<Kart[] | null>([]);
     const [kartSearchedById, setKartSearchedById] = useState<Kart | null>(null);
@@ -56,7 +56,10 @@ export default function Karts() {
                 });
 
                 const { data } = await response.json();
-                if (data) setKarts(data);
+                if (data) {
+					setKarts(data);
+					setTotalKarts(data.length)
+				}
             } catch (error: any) {
                 console.error("Error fetching karts: ", error);
             }
@@ -135,7 +138,7 @@ export default function Karts() {
         return <Navigate to="/login" />;
     }
 
-    if (user?.role !== UserRole.MANAGER) return <Navigate to="/races/history" />;
+    // if (user?.role !== UserRole.MANAGER) return <Navigate to="/races/history" />;
 
     return (
         <>
