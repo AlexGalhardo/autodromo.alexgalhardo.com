@@ -127,7 +127,7 @@ export default function Schedules() {
         return <Navigate to="/login" />;
     }
 
-	if(user?.role === UserRole.COMMON) return <Navigate to="/races/history" />;
+    if (user?.role === UserRole.COMMON) return <Navigate to="/races/history" />;
 
     return (
         <>

@@ -94,7 +94,7 @@ export default function Sidebar() {
                                 </a>
                             </li>
                         )}
-                        {user && user.role === UserRole.MANAGER && (
+                        {user?.role === UserRole.MANAGER && (
                             <li>
                                 <a
                                     href="/karts"

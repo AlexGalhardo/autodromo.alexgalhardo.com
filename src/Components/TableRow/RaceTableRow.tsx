@@ -10,8 +10,6 @@ export default function RaceTableRow({ race: { id, user_id, status, starts_at, e
             <td className="px-4 py-3">{status}</td>
             <td className="px-4 py-3">{starts_at}</td>
             <td className="px-4 py-3">{ends_at ?? "TO BE DEFINED"}</td>
-            <td className="px-4 py-3">Edit</td>
-            <td className="px-4 py-3">Delete</td>
         </tr>
     );
 }
