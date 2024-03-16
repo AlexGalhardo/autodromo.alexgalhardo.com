@@ -4,6 +4,8 @@
 
 ## Introduction
 
+* A tech challenge project to create a full stack web app simulating a real-life racetrack system.
+
 ## Tools and Services Used
 
 * [Linux Mint XFCE 21.04](https://linuxmint.com/)
@@ -15,7 +17,6 @@
 * [VSCode](https://code.visualstudio.com/)
 * [TailwindCSS](https://tailwindcss.com/)
 * Deploy: <https://vercel.com/>
-* Emails API: <https://resend.com/>
 * SPA Global State Management:
   * [React Hooks: useContext, useContext, useMemo, useReducer, useCallback](https://react.dev/reference/react)
 
