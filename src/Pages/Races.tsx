@@ -7,7 +7,7 @@ import { API_URL } from "../Utils/Envs";
 import RaceTableRow from "../Components/TableRow/RaceTableRow";
 
 export interface Race {
-    id: string;
+    _id: string;
     user_id: string;
     status: string;
     starts_at: string;
@@ -47,7 +47,7 @@ export default function Races() {
         const raceId = e.target.value;
 
         if (raceId.trim() !== "" && raceId.length) {
-            const raceFoundById = races?.filter((race) => race.id === raceId);
+            const raceFoundById = races?.filter((race) => race._id === raceId);
 
             if (raceFoundById) {
                 setRaceSearchedById(raceFoundById[0]);

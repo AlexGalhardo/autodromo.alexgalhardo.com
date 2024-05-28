@@ -16,7 +16,7 @@ export enum KartStatus {
 }
 
 export interface Kart {
-    id: string;
+    _id: string;
     status: KartStatus;
     name: string;
     brand: string;
@@ -72,7 +72,7 @@ export default function Karts() {
         const kartId = e.target.value;
 
         if (kartId.trim() !== "" && kartId.length > 2) {
-            const kartFoundById = karts?.filter((schedule) => schedule.id === kartId);
+            const kartFoundById = karts?.filter((schedule) => schedule._id === kartId);
 
             if (kartFoundById) {
                 setKartSearchedById(kartFoundById[0]);

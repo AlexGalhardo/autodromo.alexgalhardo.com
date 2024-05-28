@@ -10,7 +10,7 @@ import { API_URL } from "../Utils/Envs";
 import ScheduleTableRow from "../Components/TableRow/ScheduleTableRow";
 
 export interface Schedule {
-    id: string;
+    _id: string;
     user_id: string;
     kart_id: string;
     road_id: string;
@@ -64,7 +64,7 @@ export default function Schedules() {
         const scheduleId = e.target.value;
 
         if (scheduleId.trim() !== "" && scheduleId.length > 2) {
-            const scheduleFoundById = schedules?.filter((schedule) => schedule.id === scheduleId);
+            const scheduleFoundById = schedules?.filter((schedule) => schedule._id === scheduleId);
 
             if (scheduleFoundById) {
                 setScheduleSearchedById(scheduleFoundById[0]);

@@ -41,7 +41,7 @@ export default function RacesHistory() {
         const raceId = e.target.value;
 
         if (raceId.trim() !== "" && raceId.length) {
-            const raceFoundById = racesHistory?.filter((race) => race.id === raceId);
+            const raceFoundById = racesHistory?.filter((race) => race._id === raceId);
 
             if (raceFoundById) {
                 setRaceHistorySearchedById(raceFoundById[0]);

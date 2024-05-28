@@ -10,7 +10,7 @@ import SuccessAlertMessage from "../Components/Alerts/SuccessAlertMessage";
 import RoadTableRow from "../Components/TableRow/RoadTableRow";
 
 export interface Road {
-    id: string;
+    _id: string;
     name: string;
     kilometers: number;
     quantity_boxes: number;

@@ -10,7 +10,7 @@ import SuccessAlertMessage from "../Components/Alerts/SuccessAlertMessage";
 import UserTableRow from "../Components/TableRow/UserTableRow";
 
 export interface UserRace {
-    id: string;
+    _id: string;
     name: string;
     email: string;
     role: UserRole;

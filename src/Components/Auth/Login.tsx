@@ -6,8 +6,8 @@ import { useState } from "react";
 
 export default function LoginForm() {
     const { userLogin, error, loading, login } = useGlobalState();
-    const [email, setEmail] = useState<string>();
-    const [password, setPassword] = useState<string>();
+    const [email, setEmail] = useState<string>("manager@gmail.com");
+    const [password, setPassword] = useState<string>("managerTEST@123");
 
     if (login === true) {
         return <Navigate to="/" />;
@@ -40,7 +40,7 @@ export default function LoginForm() {
                         placeholder="Digit your email here"
                         minLength={8}
                         onChange={(e) => setEmail(e.target.value)}
-                        defaultValue={"common@gmail.com"}
+                        defaultValue={email}
                         required
                     />
                 </div>
@@ -55,7 +55,7 @@ export default function LoginForm() {
                         minLength={8}
                         placeholder="Digit your password here"
                         onChange={(e) => setPassword(e.target.value)}
-                        defaultValue={"commonTEST@123"}
+                        defaultValue={password}
                         required
                     />
                 </div>
