@@ -25,7 +25,7 @@ export enum UserRole {
 }
 
 export default function Users() {
-    const { login, user, setTotalUsers } = useGlobalState();
+    const { login, setTotalUsers } = useGlobalState();
     const [users, setUsers] = useState<UserRace[] | null>([]);
     const [userSearchedById, setUserSearchedById] = useState<UserRace | null>(null);
 
@@ -134,8 +134,6 @@ export default function Users() {
     if (login === false) {
         return <Navigate to="/login" />;
     }
-
-    if (user?.role !== UserRole.MANAGER) alert(user?.role); // return <Navigate to="/races/history" />;
 
     return (
         <>

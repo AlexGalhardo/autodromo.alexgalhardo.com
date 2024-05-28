@@ -138,7 +138,7 @@ export default function Karts() {
         return <Navigate to="/login" />;
     }
 
-    // if (user?.role !== UserRole.MANAGER) return <Navigate to="/races/history" />;
+    // // if (user?.role !== UserRole.MANAGER) return <Navigate to="/races/history" />;
 
     return (
         <>

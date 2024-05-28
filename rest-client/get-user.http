@@ -1,0 +1,5 @@
+POST https://api-autodromo.alexgalhardo.com/user/check-logged-in
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJyb2xlX3Rva2VuIjoiZTEzNTFhMzYtODA3ZS00NTBiLThmZDMtOWRjNDYyMzVmZDlmIiwiaWF0IjoxNzE2OTMwMDc1LCJleHAiOjE3MTY5MzM2NzV9.5Nlv6IF7EjiEKuObg668oLp8yml35xV-xE7KBTjf-gI
+
+

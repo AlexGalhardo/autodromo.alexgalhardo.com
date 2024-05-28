@@ -84,8 +84,6 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
 
     async function getUser(jwtToken: string) {
         try {
-            console.log("\n\n entrou jwtToken => ", jwtToken);
-
             const response = await fetch(`${API_URL}/user/check-logged-in`, {
                 method: "POST",
                 headers: {
@@ -95,11 +93,11 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
             });
 
             const {
-                data: { id, role, role_token, name, email, password, jwt_token, created_at, updated_at },
+                data: { _id, role, role_token, name, email, password, jwt_token, created_at, updated_at },
             } = await response.json();
 
             setUser({
-                id,
+                id: _id,
                 role,
                 role_token,
                 name,
@@ -109,8 +107,6 @@ export const GlobalStateProvider = ({ children }: React.PropsWithChildren) => {
                 created_at,
                 updated_at,
             });
-
-            console.log("\n\n user é => ", user);
 
             setLoggedIn(true);
         } catch (error) {
