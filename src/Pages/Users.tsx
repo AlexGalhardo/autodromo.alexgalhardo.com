@@ -67,7 +67,7 @@ export default function Users() {
         const userId = e.target.value;
 
         if (userId.trim() !== "" && userId.length > 2) {
-            const userFoundById = users?.filter((user) => user.id === userId);
+            const userFoundById = users?.filter((user) => user._id === userId);
 
             if (userFoundById) {
                 setUserSearchedById(userFoundById[0]);

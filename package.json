@@ -7,7 +7,7 @@
 		"build": "tsc && vite build",
 		"preview": "vite preview",
 		"format": "prettier --write \"src/**/*.tsx\" \"src/**/*.ts\"",
-		"husky": "husky prepare"
+		"husky": "husky install"
 	},
 	"dependencies": {
 		"bootstrap-icons": "^1.11.3",

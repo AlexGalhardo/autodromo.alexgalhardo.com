@@ -65,7 +65,7 @@ export default function Roads() {
         const scheduleId = e.target.value;
 
         if (scheduleId.trim() !== "" && scheduleId.length > 2) {
-            const scheduleFoundById = roads?.filter((schedule) => schedule.id === scheduleId);
+            const scheduleFoundById = roads?.filter((schedule) => schedule._id === scheduleId);
 
             if (scheduleFoundById) {
                 setRoadSearchedById(scheduleFoundById[0]);
