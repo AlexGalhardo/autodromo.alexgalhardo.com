@@ -40,6 +40,7 @@ export default function LoginForm() {
                         placeholder="Digit your email here"
                         minLength={8}
                         onChange={(e) => setEmail(e.target.value)}
+                        defaultValue={"common@gmail.com"}
                         required
                     />
                 </div>
@@ -54,6 +55,7 @@ export default function LoginForm() {
                         minLength={8}
                         placeholder="Digit your password here"
                         onChange={(e) => setPassword(e.target.value)}
+                        defaultValue={"commonTEST@123"}
                         required
                     />
                 </div>

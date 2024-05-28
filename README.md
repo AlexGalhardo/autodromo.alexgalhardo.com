@@ -6,99 +6,35 @@
 
 * A tech challenge project to create a full stack web app simulating a real-life racetrack system.
 
-## Tools and Services Used
-
-* [Linux Mint XFCE 21.04](https://linuxmint.com/)
-* [Git](https://git-scm.com/)
-* [Vite v5](https://vitejs.dev/)
-* [ReactJS + TypeScript](https://react.dev/)
-* [Flowbite](https://flowbite.com/)
-* [NodeJS v20](https://nodejs.org/en)
-* [VSCode](https://code.visualstudio.com/)
-* [TailwindCSS](https://tailwindcss.com/)
-* Deploy: <https://vercel.com/>
-* SPA Global State Management:
-  * [React Hooks: useContext, useContext, useMemo, useReducer, useCallback](https://react.dev/reference/react)
-
-## Features
-
-* CRUD
-* Authentication & Authorization
-* Notifications Events using Publisher/Subscriber Pattern
 
 ## Development Setup Local
 
-* Clone this repository
-
-<!---->
-
-```
+1. Clone this repository
+```bash
 git clone https://github.com/AlexGalhardo/autodromo.alexgalhardo.com
 ```
 
-* Enter repository
-
-<!---->
-
-```
+2. Enter repository
+```bash
 cd autodromo.alexgalhardo.com/
 ```
 
-* Install dependencies
-
-<!---->
-
+3. Run setup.sh
+```bash
+chmod +x setup.sh && ./setup.sh
 ```
-npm install
-```
-
-* Setup enviroment variables
-
-<!---->
-
-```
-cp .env-example .env
-```
-
-* Start local server
-
-<!---->
-
-```
-npm run dev
-```
-
-* Go to: <http://localhost:5173/>
 
 ## Build for deploy
-
-* Create build
-
-<!---->
-
-```
-npm run build
+a. Create build
+```bash
+bun run build
 ```
 
-* Preview production build
+b. To test build production locally run:
 
-<!---->
-
+```bash
+bun run start
 ```
-npm run preview
-```
-
-* Open production build local server (build + preview)
-
-<!---->
-
-```
-npm run start
-```
-
-* Go to: <http://localhost:4173/>
-
-<!---->
 
 ## License
 
